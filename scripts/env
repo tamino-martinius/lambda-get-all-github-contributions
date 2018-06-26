@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# Setup environment for other scripts. Source this script in other scripts
+
+# -e: Exit on commands not found
+# -u: Exit on unset variables
+# -x: Write to standard error a trace for each command after it expands the command and before it executes it
+set -eux
+
+# Check if npm and aws CLIs are installed, just in case people don't read the README...
+if ! type npm > /dev/null || ! type aws > /dev/null; then
+  echo 'Install npm and aws CLIs before running scripts. Refer to the README'
+
+  exit 1;
+fi
+
+# AWS related ENV variables in alphabetical order
+API_GATEWAY_FILENAME="api.yml"
+AWS_REGION="eu-central-1"
+BACKEND_S3_BUCKET="template-webpack-typescript-lambda"
+CLOUD_FORMATION_FILENAME="template.yml"
+CLOUD_FORMATION_STACK_NAME="TemplateWebpackTypeScriptLambda"
+LAMBDA_FUNCTION_FILENAME="lambda.js"
+LAMBDA_FUNCTION_NAME="TemplateWebpackTypeScriptLambda"
+LAMBDA_FUNCTION_ZIP_FILENAME="lambda-function.zip"
+SAM_LOCAL_API_HOST="localhost"
+SAM_LOCAL_API_PORT="3000"
+
+# Path related ENV variables, relative to the directory of this script
+PROJECT_ROOT="./.."
+API_GATEWAY_FILE="$PROJECT_ROOT/$API_GATEWAY_FILENAME"
+CLOUD_FORMATION_FILE="$PROJECT_ROOT/$CLOUD_FORMATION_FILENAME"
+LAMBDA_FUNCTION_ZIP_FILE="$PROJECT_ROOT/$LAMBDA_FUNCTION_ZIP_FILENAME"
+NODE_MODULES_DIRNAME="node_modules"
+NODE_MODULES_DIR="$PROJECT_ROOT/$NODE_MODULES_DIRNAME"
