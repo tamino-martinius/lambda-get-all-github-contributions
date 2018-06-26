@@ -63,6 +63,7 @@ Additionally its recommended to also install tslint to improve your code quality
 
 ```shell
 npm install --save-dev \
+  @types/node \
   ts-loader \
   tslint \
   tslint-config-airbnb \
