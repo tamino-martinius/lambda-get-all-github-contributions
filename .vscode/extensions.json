@@ -1,8 +1,5 @@
 {
   "recommendations": [
-    "eg2.tslint",
-    "nobelhuang.tslint-vue-tsx",
-    "octref.vetur",
-    "prograhammer.tslint-vue"
+    "eg2.tslint"
   ]
 }
