@@ -1,13 +1,12 @@
 {
-  "name": "template-webpack-typescript-vue",
+  "name": "template-webpack-typescript",
   "version": "1.0.0",
   "private": true,
-  "description": "A Template to generate websites based on TypeScript and VueJs",
+  "description": "A Template to transpile TypeScript to JavaScript using webpack",
   "main": "dist/index.js",
   "scripts": {
     "build": "webpack",
     "build:production": "npm run build --production",
-    "start": "webpack-dev-server --hot --inline --open -d",
     "watch": "npm run build -- --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,10 +16,7 @@
     "template",
     "ts",
     "tslint",
-    "tsx",
     "typescript",
-    "vue",
-    "vuejs",
     "webpack",
     "webpack4"
   ],
