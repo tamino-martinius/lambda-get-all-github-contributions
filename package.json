@@ -27,6 +27,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^10.3.6",
+    "aws-sdk": "^2.263.1",
     "clean-webpack-plugin": "^0.1.19",
     "ts-loader": "^4.4.1",
     "tslint": "^5.10.0",
