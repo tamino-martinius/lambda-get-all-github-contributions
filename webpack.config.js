@@ -1,9 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const vueLoaderPlugin = require('vue-loader/lib/plugin');
-const copyWebpackPlugin = require('copy-webpack-plugin');
 const uglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const htmlWebpackPlugin = require('html-webpack-plugin');
 const cleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
@@ -13,60 +10,16 @@ module.exports = {
     filename: 'index.js',
   },
   module: {
-    rules: [{
-        test: /\.vue$/,
-        loader: 'vue-loader',
-      },
+    rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.ts$/,
         loader: 'ts-loader',
         exclude: /node_modules/,
-        options: {
-          appendTsSuffixTo: [/\.vue$/],
-        },
-      },
-      {
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]?[hash]',
-        },
-      },
-      {
-        test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-        ],
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-          'sass-loader',
-        ],
-      },
-      {
-        test: /\.sass$/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              indentedSyntax: true,
-            },
-          },
-        ],
       },
     ],
   },
   resolve: {
-    extensions: ['.ts', '.js', '.vue', '.json'],
-    alias: {
-      vue$: 'vue/dist/vue.esm.js',
-    },
+    extensions: ['.ts', '.json'],
   },
   devServer: {
     historyApiFallback: true,
@@ -78,20 +31,6 @@ module.exports = {
   devtool: '#eval-source-map',
   plugins: [
     new cleanWebpackPlugin('./dist'),
-    new vueLoaderPlugin(),
-    new copyWebpackPlugin([{
-      from: 'public',
-      to: '',
-    }]),
-    new htmlWebpackPlugin({
-      template: './src/index.html',
-      minify: process.env.NODE_ENV === 'production' ? {
-        minifyJS: true,
-        minifyCSS: true,
-        collapseWhitespace: true,
-        collapseInlineTagWhitespace: true,
-      } : false,
-    }),
   ],
 };
 
@@ -118,12 +57,4 @@ if (process.env.NODE_ENV === 'production') {
   ]);
 } else {
   module.exports.mode = 'development';
-  module.exports.devServer = {
-    port: 3000,
-    hot: true,
-    host: 'localhost',
-    historyApiFallback: true,
-    noInfo: false,
-    contentBase: './dist',
-  };
 }
