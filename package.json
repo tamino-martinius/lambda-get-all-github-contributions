@@ -4,6 +4,13 @@
   "private": true,
   "description": "A Template to transpile TypeScript to JavaScript using webpack",
   "main": "dist/index.js",
+  "config": {
+    "awsRegion": "eu-central-1",
+    "awsProfile": "",
+    "bucketName": "template-webpack-typescript-lambda",
+    "stackName": "TemplateWebpackTypeScriptLambda",
+    "functionName": "TemplateWebpackTypeScriptLambda"
+  },
   "scripts": {
     "build": "webpack",
     "build:production": "npm run build --production",
