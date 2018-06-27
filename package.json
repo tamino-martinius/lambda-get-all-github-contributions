@@ -18,6 +18,14 @@
     "build": "webpack",
     "build:production": "npm run build --production",
     "watch": "npm run build -- --watch",
+
+    "cf:create": "ts-node scripts/cloudFormationCreateBucket.ts",
+    "cf:update": "ts-node scripts/cloudFormationUpdateBucket.ts",
+    "cf:delete": "ts-node scripts/cloudFormationDeleteBucket.ts",
+
+    "s3:create": "ts-node scripts/s3CreateBucket.ts",
+    "s3:delete": "ts-node scripts/s3DeleteBucket.ts",
+
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
