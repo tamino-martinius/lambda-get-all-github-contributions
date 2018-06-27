@@ -3,3 +3,7 @@ export default class Test {
     console.log('hello world');
   }
 }
+
+exports.handler = async (event: any) => {
+  new Test();
+};
