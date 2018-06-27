@@ -27,6 +27,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/aws-lambda": "^8.10.7",
+    "@types/aws-sdk": "^2.7.0",
     "@types/node": "^10.3.6",
     "aws-sdk": "^2.263.1",
     "clean-webpack-plugin": "^0.1.19",

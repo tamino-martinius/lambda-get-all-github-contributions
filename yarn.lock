@@ -23,6 +23,12 @@
   version "8.10.7"
   resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.7.tgz#1dfd0e1918205f74169658ad8aa8f9c06f161909"
 
+"@types/aws-sdk@^2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@types/aws-sdk/-/aws-sdk-2.7.0.tgz#83588b3d14ebdca1d4ce5e023387577568ce82f3"
+  dependencies:
+    aws-sdk "*"
+
 "@types/node@^10.3.6":
   version "10.3.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.6.tgz#ea8aab9439b59f40d19ec5f13b44642344872b11"
@@ -289,6 +295,20 @@ async-each@^1.0.0:
 atob@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.1.tgz#ae2d5a729477f289d60dd7f96a6314a22dd6c22a"
+
+aws-sdk@*:
+  version "2.264.1"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.264.1.tgz#7478f3de36dab354172fd30f006ba8a96acd42e1"
+  dependencies:
+    buffer "4.9.1"
+    events "1.1.1"
+    ieee754 "1.1.8"
+    jmespath "0.15.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    uuid "3.1.0"
+    xml2js "0.4.17"
 
 aws-sdk@^2.263.1:
   version "2.263.1"
