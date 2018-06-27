@@ -9,7 +9,10 @@
     "awsProfile": "",
     "bucketName": "template-webpack-typescript-lambda",
     "stackName": "TemplateWebpackTypeScriptLambda",
-    "functionName": "TemplateWebpackTypeScriptLambda"
+    "functionName": "TemplateWebpackTypeScriptLambda",
+    "apiGateway": false,
+    "apiDomain": "",
+    "apiSubDomain": ""
   },
   "scripts": {
     "build": "webpack",
