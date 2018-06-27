@@ -1,23 +1,17 @@
 {
   "compilerOptions": {
-    "outDir": "./built/",
     "sourceMap": true,
     "strict": true,
     "module": "es2015",
     "moduleResolution": "node",
-    "target": "es5",
-    "experimentalDecorators": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    }
+    "target": "es2015",
+    "experimentalDecorators": true
   },
   "exclude": [
     "node_modules"
   ],
   "include": [
+    "scripts/**/*.ts",
     "src/**/*.ts"
   ]
 }
