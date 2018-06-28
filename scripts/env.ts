@@ -1,5 +1,6 @@
 import {
   CloudFormation,
+  Lambda,
   S3,
   config,
   SharedIniFileCredentials,
@@ -21,7 +22,7 @@ if (AWS_PROFILE.length > 0) {
 const regionConfig = { region: AWS_REGION };
 
 export const s3 = new S3(regionConfig);
-
+export const lambda = new Lambda(regionConfig);
 export const cloudFormation = new CloudFormation(regionConfig);
 
 export const template: any = {
