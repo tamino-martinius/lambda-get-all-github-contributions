@@ -5,19 +5,19 @@ import {
 } from './env';
 
 export const action = async () => {
-  s3.createBucket(
-    {
-      Bucket: BUCKET_NAME,
-      CreateBucketConfiguration: {
-        LocationConstraint: AWS_REGION,
-      },
+  return await s3.createBucket({
+    Bucket: BUCKET_NAME,
+    CreateBucketConfiguration: {
+      LocationConstraint: AWS_REGION,
     },
-    console.log,
-  );
+  }).promise();
 };
 export default action;
 
 if (!module.parent) {
   // run action if script is called directly
-  action();
+  (async () => {
+    const result = await action();
+    console.log(result);
+  })();
 }

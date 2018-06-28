@@ -7,30 +7,30 @@ import {
 } from './env';
 
 export const action = async () => {
-  cloudFormation.updateStack(
-    {
-      StackName: STACK_NAME,
-      Capabilities: ['CAPABILITY_NAMED_IAM'],
-      Parameters: [
-        {
-          ParameterKey: 'AwsServerlessExpressS3Bucket',
-          ParameterValue: BUCKET_NAME,
-          UsePreviousValue: false,
-        },
-        {
-          ParameterKey: 'LambdaFunctionName',
-          ParameterValue: FUNCTION_NAME,
-          UsePreviousValue: false,
-        },
-      ],
-      TemplateBody: JSON.stringify(template),
-    },
-    console.log,
-  );
+  return await cloudFormation.updateStack({
+    StackName: STACK_NAME,
+    Capabilities: ['CAPABILITY_NAMED_IAM'],
+    Parameters: [
+      {
+        ParameterKey: 'AwsServerlessExpressS3Bucket',
+        ParameterValue: BUCKET_NAME,
+        UsePreviousValue: false,
+      },
+      {
+        ParameterKey: 'LambdaFunctionName',
+        ParameterValue: FUNCTION_NAME,
+        UsePreviousValue: false,
+      },
+    ],
+    TemplateBody: JSON.stringify(template),
+  }).promise();
 };
 export default action;
 
 if (!module.parent) {
   // run action if script is called directly
-  action();
+  (async () => {
+    const result = await action();
+    console.log(result);
+  })();
 }

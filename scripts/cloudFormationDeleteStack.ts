@@ -5,16 +5,16 @@ import {
 } from './env';
 
 export const action = async () => {
-  cloudFormation.deleteStack(
-    {
-      StackName: STACK_NAME,
-    },
-    console.log,
-  );
+  return await cloudFormation.deleteStack({
+    StackName: STACK_NAME,
+  }).promise();
 };
 export default action;
 
 if (!module.parent) {
   // run action if script is called directly
-  action();
+  (async () => {
+    const result = await action();
+    console.log(result);
+  })();
 }
