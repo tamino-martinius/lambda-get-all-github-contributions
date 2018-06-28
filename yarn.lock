@@ -29,6 +29,12 @@
   dependencies:
     aws-sdk "*"
 
+"@types/clean-webpack-plugin@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@types/clean-webpack-plugin/-/clean-webpack-plugin-0.1.2.tgz#f3c9d97dd397a9db86ba6b9b245ca0eedf88f3b2"
+  dependencies:
+    "@types/webpack" "*"
+
 "@types/jszip@^3.1.4":
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/@types/jszip/-/jszip-3.1.4.tgz#9b81e3901a6988e9459ac27abf483e6b892251af"
