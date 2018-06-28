@@ -15,9 +15,9 @@
     "apiSubDomain": ""
   },
   "scripts": {
-    "build": "webpack",
-    "build:production": "npm run build --production",
-    "watch": "npm run build -- --watch",
+    "build": "ts-node scripts/build.ts",
+    "build:production": "NODE_ENV=production ts-node scripts/build.ts",
+    "watch": "ts-node scripts/watch.ts",
 
     "cf:create": "ts-node scripts/cloudFormationCreateBucket.ts",
     "cf:update": "ts-node scripts/cloudFormationUpdateBucket.ts",
