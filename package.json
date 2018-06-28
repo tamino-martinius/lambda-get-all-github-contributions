@@ -26,6 +26,8 @@
     "s3:create": "ts-node scripts/s3CreateBucket.ts",
     "s3:delete": "ts-node scripts/s3DeleteBucket.ts",
 
+    "lambda:package": "ts-node scripts/lambdaPackage.ts",
+
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
