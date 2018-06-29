@@ -449,110 +449,130 @@ export const generateStack = (type: TemplateType) => {
   };
 };
 
-export const swaggerApi = `
----
-swagger: 2.0
-basePath: /prod
-info:
-  title: LogRequest Proxy
-schemes:
-- https
-paths:
-  /:
-    x-amazon-apigateway-any-method:
-      x-amazon-apigateway-auth:
-        type: aws_iam
-      produces:
-      - application/json
-      parameters:
-      - name: proxy
-        in: path
-        required: true
-        type: string
-      responses: {}
-      x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:266019036107:function:LogRequest/invocations"
-        httpMethod: POST
-        type: aws_proxy
-    options:
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      responses:
-        '200':
-          description: 200 response
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: string
-            Access-Control-Allow-Methods:
-              type: string
-            Access-Control-Allow-Headers:
-              type: string
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: 200
-            responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Requested-With'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        passthroughBehavior: when_no_match
-        requestTemplates:
-          application/json: "{\"statusCode\": 200}"
-        type: mock
-  /{proxy+}:
-    x-amazon-apigateway-any-method:
-      x-amazon-apigateway-auth:
-        type: aws_iam
-      produces:
-      - application/json
-      parameters:
-      - name: proxy
-        in: path
-        required: true
-        type: string
-      responses: {}
-      x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:266019036107:function:LogRequest/invocations"
-        httpMethod: POST
-        type: aws_proxy
-    options:
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      responses:
-        '200':
-          description: 200 response
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: string
-            Access-Control-Allow-Methods:
-              type: string
-            Access-Control-Allow-Headers:
-              type: string
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: 200
-            responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Requested-With'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        passthroughBehavior: when_no_match
-        requestTemplates:
-          application/json: "{\"statusCode\": 200}"
-        type: mock
-definitions:
-  Empty:
-    type: object
-    title: Empty Schema
-`;
+export const generateSwaggerApi = async () => {
+  const identity = await sts.getCallerIdentity().promise();
+  const accountId = identity.Account;
+  const lambdaUri = [
+    `arn:aws:apigateway:${AWS_REGION}:lambda:path`,
+    '2015-03-31',
+    'functions',
+    `arn:aws:lambda:${AWS_REGION}:${accountId}:function:${FUNCTION_NAME}`,
+    'invocations',
+  ].join('/');
+  const allowHeaders = [
+    'Content-Type',
+    'Authorization',
+    'X-Amz-Date',
+    'X-Api-Key',
+    'X-Amz-Security-Token',
+    'X-Requested-With',
+  ].join(',');
+
+  return tsDedent`
+    ---
+    swagger: 2.0
+    basePath: /prod
+    info:
+      title: LogRequest Proxy
+    schemes:
+    - https
+    paths:
+      /:
+        x-amazon-apigateway-any-method:
+          x-amazon-apigateway-auth:
+            type: aws_iam
+          produces:
+          - application/json
+          parameters:
+          - name: proxy
+            in: path
+            required: true
+            type: string
+          responses: {}
+          x-amazon-apigateway-integration:
+            uri: "${lambdaUri}"
+            httpMethod: POST
+            type: aws_proxy
+        options:
+          consumes:
+          - application/json
+          produces:
+          - application/json
+          responses:
+            '200':
+              description: 200 response
+              schema:
+                $ref: "#/definitions/Empty"
+              headers:
+                Access-Control-Allow-Origin:
+                  type: string
+                Access-Control-Allow-Methods:
+                  type: string
+                Access-Control-Allow-Headers:
+                  type: string
+          x-amazon-apigateway-integration:
+            responses:
+              default:
+                statusCode: 200
+                responseParameters:
+                  method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
+                  method.response.header.Access-Control-Allow-Headers: "'${allowHeaders}'"
+                  method.response.header.Access-Control-Allow-Origin: "'*'"
+            passthroughBehavior: when_no_match
+            requestTemplates:
+              application/json: "{\"statusCode\": 200}"
+            type: mock
+      /{proxy+}:
+        x-amazon-apigateway-any-method:
+          x-amazon-apigateway-auth:
+            type: aws_iam
+          produces:
+          - application/json
+          parameters:
+          - name: proxy
+            in: path
+            required: true
+            type: string
+          responses: {}
+          x-amazon-apigateway-integration:
+            uri: "${lambdaUri}"
+            httpMethod: POST
+            type: aws_proxy
+        options:
+          consumes:
+          - application/json
+          produces:
+          - application/json
+          responses:
+            '200':
+              description: 200 response
+              schema:
+                $ref: "#/definitions/Empty"
+              headers:
+                Access-Control-Allow-Origin:
+                  type: string
+                Access-Control-Allow-Methods:
+                  type: string
+                Access-Control-Allow-Headers:
+                  type: string
+          x-amazon-apigateway-integration:
+            responses:
+              default:
+                statusCode: 200
+                responseParameters:
+                  method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
+                  method.response.header.Access-Control-Allow-Headers: "'${allowHeaders}'"
+                  method.response.header.Access-Control-Allow-Origin: "'*'"
+            passthroughBehavior: when_no_match
+            requestTemplates:
+              application/json: "{\"statusCode\": 200}"
+            type: mock
+    definitions:
+      Empty:
+        type: object
+        title: Empty Schema
+  `;
+};
 
 export default {
   AWS_REGION,
@@ -562,6 +582,6 @@ export default {
   FUNCTION_NAME,
   cloudFormation,
   generateStack,
+  generateSwaggerApi,
   s3,
-  swaggerApi,
 };
