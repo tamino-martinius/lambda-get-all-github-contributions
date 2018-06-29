@@ -19,9 +19,9 @@
     "build:production": "NODE_ENV=production ts-node scripts/build.ts",
     "watch": "ts-node scripts/watch.ts",
 
-    "cf:create": "ts-node scripts/cloudFormationCreateBucket.ts",
-    "cf:update": "ts-node scripts/cloudFormationUpdateBucket.ts",
-    "cf:delete": "ts-node scripts/cloudFormationDeleteBucket.ts",
+    "cf:create": "ts-node scripts/cloudFormationCreateStack.ts",
+    "cf:delete": "ts-node scripts/cloudFormationDeleteStack.ts",
+    "cf:update": "ts-node scripts/cloudFormationUpdateStack.ts",
 
     "s3:create": "ts-node scripts/s3CreateBucket.ts",
     "s3:delete": "ts-node scripts/s3DeleteBucket.ts",
