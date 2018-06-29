@@ -8,7 +8,7 @@ import { readFileSync } from 'fs';
 import * as JSZip from 'jszip';
 
 export const action = async () => {
-  await buildAction(true);
+  console.log(await buildAction(true));
   const zip = new JSZip();
   zip.file(TARGET_NAME, readFileSync(TARGET_PATH));
   return await zip.generateAsync({
