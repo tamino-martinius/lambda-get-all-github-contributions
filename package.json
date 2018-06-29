@@ -30,6 +30,8 @@
     "lambda:update": "ts-node scripts/lambdaUpdate.ts",
     "lambda:upload": "ts-node scripts/lambdaUpload.ts",
 
+    "sam:invoke": "ts-node scripts/samInvoke.ts",
+
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
