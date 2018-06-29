@@ -213,10 +213,12 @@ export const generateStack = (type: TemplateType) => {
       Type: 'AWS::Lambda::Permission',
       Properties: {
         Action: 'lambda:InvokeFunction',
-        FunctionName: [
-          'LambdaFunction',
-          'Arn',
-        ],
+        FunctionName: {
+          'Fn::GetAtt': [
+            'LambdaFunction',
+            'Arn',
+          ],
+        },
         Principal: 'apigateway.amazonaws.com',
         SourceArn: {
           'Fn::Join': [
