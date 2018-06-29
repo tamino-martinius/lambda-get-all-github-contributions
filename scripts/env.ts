@@ -4,7 +4,9 @@ import {
   S3,
   config,
   SharedIniFileCredentials,
+  STS,
 } from 'aws-sdk';
+import tsDedent from 'ts-dedent';
 
 export const AWS_REGION = process.env.npm_package_config_awsRegion || '';
 export const AWS_PROFILE = process.env.npm_package_config_awsProfile || '';
@@ -39,6 +41,7 @@ const regionConfig = { region: AWS_REGION };
 export const s3 = new S3(regionConfig);
 export const lambda = new Lambda(regionConfig);
 export const cloudFormation = new CloudFormation(regionConfig);
+export const sts = new STS(regionConfig);
 
 export const generateStack = (type: TemplateType) => {
   const parameters: CloudFormation.Parameter[] = [{
