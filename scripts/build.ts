@@ -75,12 +75,14 @@ export const config = (isProduction: boolean = false) => {
 };
 
 export const action = async (isProduction: boolean = process.env.NODE_ENV === 'production') => {
-  return await new Promise<webpack.Stats>((resolve, reject) => {
+  return await new Promise<string>((resolve, reject) => {
     webpack(config(isProduction), (err, res) => {
       if (err) {
         reject(err);
       } else {
-        resolve(res);
+        resolve(res.toString({
+          colors: true,
+        }));
       }
     });
   });
@@ -92,8 +94,6 @@ if (!module.parent) {
   // run action if script is called directly
   (async () => {
     const stats = await action();
-    console.log(stats.toString({
-      colors: true,
-    }));
+    console.log(stats);
   })();
 }
