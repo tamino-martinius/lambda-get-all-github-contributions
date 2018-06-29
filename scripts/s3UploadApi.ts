@@ -1,14 +1,15 @@
 import {
   BUCKET_NAME,
   s3,
-  swaggerApi,
+  generateSwaggerApi,
 } from './env';
 
 export const action = async () => {
+  const api = await generateSwaggerApi();
   return await s3.upload({
     Bucket: BUCKET_NAME,
     Key: 'api.yml',
-    Body: swaggerApi,
+    Body: api,
     ContentType: 'text/yaml',
   }).promise();
 };
