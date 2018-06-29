@@ -23,6 +23,8 @@
     "cf:delete": "ts-node scripts/cloudFormationDeleteStack.ts",
     "cf:update": "ts-node scripts/cloudFormationUpdateStack.ts",
 
+    "s3:clear": "ts-node scripts/s3ClearBucket.ts",
+    "s3:api": "ts-node scripts/s3UploadApi.ts",
 
     "lambda:package": "ts-node scripts/lambdaPackage.ts",
     "lambda:update": "ts-node scripts/lambdaUpdate.ts",
