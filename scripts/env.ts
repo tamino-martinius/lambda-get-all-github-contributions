@@ -452,6 +452,6 @@ export default {
   STACK_NAME,
   FUNCTION_NAME,
   cloudFormation,
-  S3,
   generateStack,
+  s3,
 };
