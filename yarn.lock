@@ -2603,6 +2603,10 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
+ts-dedent@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ts-dedent/-/ts-dedent-1.0.0.tgz#685c0069d013d4c35e683463e7692eea2ffa18da"
+
 ts-loader@^4.4.1:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-4.4.1.tgz#c93a46eea430ebce1f790dfe438caefb8670d365"
