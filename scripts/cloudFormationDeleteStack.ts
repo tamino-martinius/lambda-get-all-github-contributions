@@ -3,8 +3,10 @@ import {
   STACK_NAME,
   cloudFormation,
 } from './env';
+import { action as clearAction } from './s3ClearBucket';
 
 export const action = async () => {
+  await clearAction();
   return await cloudFormation.deleteStack({
     StackName: STACK_NAME,
   }).promise();
