@@ -3,26 +3,17 @@ import {
   BUCKET_NAME,
   STACK_NAME,
   cloudFormation,
-  template,
+  FINAL_STACK_TYPE,
+  generateStack,
 } from './env';
 
 export const action = async () => {
+  const finalStack = generateStack(FINAL_STACK_TYPE);
   return await cloudFormation.updateStack({
     StackName: STACK_NAME,
     Capabilities: ['CAPABILITY_NAMED_IAM'],
-    Parameters: [
-      {
-        ParameterKey: 'AwsServerlessExpressS3Bucket',
-        ParameterValue: BUCKET_NAME,
-        UsePreviousValue: false,
-      },
-      {
-        ParameterKey: 'LambdaFunctionName',
-        ParameterValue: FUNCTION_NAME,
-        UsePreviousValue: false,
-      },
-    ],
-    TemplateBody: JSON.stringify(template),
+    Parameters: finalStack.parameters,
+    TemplateBody: JSON.stringify(finalStack.template),
   }).promise();
 };
 export default action;
