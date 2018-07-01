@@ -1285,9 +1285,9 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-github-graphql-api@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/github-graphql-api/-/github-graphql-api-1.0.2.tgz#e4e2507f4a8e58229538a71ba44a93ed04c1f2ea"
+github-graphql-api@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/github-graphql-api/-/github-graphql-api-1.0.3.tgz#e4ff3b01d46e1c0b1ac4a07c5aa22589a849a9c5"
 
 glob-parent@^3.1.0:
   version "3.1.0"
