@@ -45,9 +45,9 @@
   version "10.5.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.5.0.tgz#f5b61395c09b47ac46aaa1452750c9a72b3d3673"
 
-"@types/node@^10.3.6":
-  version "10.3.6"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.6.tgz#ea8aab9439b59f40d19ec5f13b44642344872b11"
+"@types/node@^10.5.1":
+  version "10.5.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.5.1.tgz#d578446f4abff5c0b49ade9b4e5274f6badaadfc"
 
 "@types/tapable@*":
   version "1.0.2"
@@ -65,7 +65,7 @@
   dependencies:
     "@types/webpack" "*"
 
-"@types/webpack@*", "@types/webpack@^4.4.3":
+"@types/webpack@*", "@types/webpack@^4.4.4":
   version "4.4.4"
   resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.4.4.tgz#f001a0a43cf5b433d57a1a22366fe1939d648957"
   dependencies:
@@ -378,9 +378,9 @@ aws-sdk@*:
     uuid "3.1.0"
     xml2js "0.4.17"
 
-aws-sdk@^2.263.1:
-  version "2.263.1"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.263.1.tgz#217e2459ebff3702cc72260bcafca0bf16edc4cd"
+aws-sdk@^2.266.1:
+  version "2.266.1"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.266.1.tgz#1d0f14cbf82c95cec97752cd5b00df0315a67ff4"
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -1000,6 +1000,14 @@ end-of-stream@^1.0.0, end-of-stream@^1.1.0:
 enhanced-resolve@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-4.0.0.tgz#e34a6eaa790f62fccd71d93959f56b2b432db10a"
+  dependencies:
+    graceful-fs "^4.1.2"
+    memory-fs "^0.4.0"
+    tapable "^1.0.0"
+
+enhanced-resolve@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-4.1.0.tgz#41c7e0bfdfe74ac1ffe1e57ad6a5c6c9f3742a7f"
   dependencies:
     graceful-fs "^4.1.2"
     memory-fs "^0.4.0"
@@ -2863,9 +2871,9 @@ ts-dedent@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ts-dedent/-/ts-dedent-1.0.0.tgz#685c0069d013d4c35e683463e7692eea2ffa18da"
 
-ts-loader@^4.4.1:
-  version "4.4.1"
-  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-4.4.1.tgz#c93a46eea430ebce1f790dfe438caefb8670d365"
+ts-loader@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-4.4.2.tgz#778d4464b24436873c78f7f9e914d88194c2a248"
   dependencies:
     chalk "^2.3.0"
     enhanced-resolve "^4.0.0"
@@ -3124,9 +3132,9 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^4.12.0:
-  version "4.12.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.12.0.tgz#14758e035ae69747f68dd0edf3c5a572a82bdee9"
+webpack@^4.14.0:
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.14.0.tgz#bbcc40dbf9a34129491b431574189d3802972243"
   dependencies:
     "@webassemblyjs/ast" "1.5.12"
     "@webassemblyjs/helper-module-context" "1.5.12"
@@ -3138,7 +3146,7 @@ webpack@^4.12.0:
     ajv "^6.1.0"
     ajv-keywords "^3.1.0"
     chrome-trace-event "^1.0.0"
-    enhanced-resolve "^4.0.0"
+    enhanced-resolve "^4.1.0"
     eslint-scope "^3.7.1"
     json-parse-better-errors "^1.0.2"
     loader-runner "^2.3.0"
