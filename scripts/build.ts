@@ -8,7 +8,6 @@ export const SRC_PATH = resolve(ROOT_PATH, 'src');
 export const DIST_PATH = resolve(ROOT_PATH, 'dist');
 export const TARGET_NAME = 'lambda.js';
 export const TARGET_PATH = resolve(DIST_PATH, TARGET_NAME);
-
 export const config = (isProduction: boolean = false) => {
   // legacy as fallback
   if (isProduction) process.env.NODE_ENV = 'production';
@@ -17,6 +16,9 @@ export const config = (isProduction: boolean = false) => {
     context: ROOT_PATH,
     entry: resolve(SRC_PATH, 'index.ts'),
     output: {
+      library: 'handler',
+      libraryTarget: 'commonjs',
+      libraryExport: 'default',
       path: DIST_PATH,
       filename: TARGET_NAME,
     },
