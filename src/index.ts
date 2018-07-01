@@ -1,9 +1,11 @@
-export default class Test {
+class Test {
   constructor() {
     console.log('hello world');
   }
 }
 
-exports.handler = async (event: any) => {
-  new Test();
+console.log('test');
+
+export default async (event: any) => {
+  return new Test();
 };
