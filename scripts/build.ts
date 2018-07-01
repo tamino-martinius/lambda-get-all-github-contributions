@@ -32,7 +32,7 @@ export const config = (isProduction: boolean = false) => {
       ],
     },
     resolve: {
-      extensions: ['.ts', '.json'],
+      extensions: ['.js', '.ts', '.json'],
     },
     devServer: {
       historyApiFallback: true,
