@@ -1,8 +1,6 @@
 import { GitHub } from 'github-graphql-api';
 import {
   RepositoriesPage,
-  Dict,
-  RepositoriesContributedToPage,
 } from './types';
 const apiToken = process.env.GITHUB_TOKEN;
 
@@ -17,10 +15,19 @@ export class Cron {
     console.log(apiToken);
   }
 
-  static paginated(resource: string, startCursor: string | undefined, slot: string): string {
+  static paginated(
+    resource: string,
+    startCursor: string | undefined,
+    filter: string,
+    slot: string)
+  : string {
+
     let pageQuery = 'first: 100';
     if (startCursor) {
       pageQuery += `, after: "${startCursor}"`;
+    }
+    if (filter) {
+      pageQuery += `, ${filter}`;
     }
     return `
       ${ resource }(${ pageQuery }) {
@@ -39,27 +46,16 @@ export class Cron {
   async getRepositoryNames(): Promise<string[]> {
     let hasNextPage = true;
     let endCursor: string | undefined = undefined;
-    const repositoryNames: Dict<boolean> = {};
+    const repositoryNames: string[] = [];
     while (hasNextPage) {
       const repositoryPage: RepositoriesPage = await this.getRepositoriesPage(endCursor);
       const pageInfo = repositoryPage.viewer.repositories.pageInfo;
       hasNextPage = pageInfo.hasNextPage;
       endCursor = pageInfo.endCursor;
       const nodes = repositoryPage.viewer.repositories.nodes;
-      nodes.forEach(node => repositoryNames[node.nameWithOwner] = true);
+      repositoryNames.push(...nodes.map(node => node.nameWithOwner));
     }
-    hasNextPage = true;
-    endCursor = undefined;
-    while (hasNextPage) {
-      const repositoryPage: RepositoriesContributedToPage =
-        await this.getRepositoriesContributedToPage(endCursor);
-      const pageInfo = repositoryPage.viewer.repositoriesContributedTo.pageInfo;
-      hasNextPage = pageInfo.hasNextPage;
-      endCursor = pageInfo.endCursor;
-      const nodes = repositoryPage.viewer.repositoriesContributedTo.nodes;
-      nodes.forEach(node => repositoryNames[node.nameWithOwner] = true);
-    }
-    return Object.keys(repositoryNames);
+    return repositoryNames;
   }
 
   async getRepositoriesPage(
@@ -68,23 +64,14 @@ export class Cron {
     return await github.query(`
       query {
         viewer{
-          ${ Cron.paginated('repositories', startCursor, `
-            nameWithOwner
-          `) }
-        }
-      }
-    `);
-  }
-
-  async getRepositoriesContributedToPage(
-    startCursor?: string,
-  ): Promise<RepositoriesContributedToPage> {
-    return await github.query(`
-      query {
-        viewer{
-          ${ Cron.paginated('repositoriesContributedTo', startCursor, `
-            nameWithOwner
-          `)}
+          ${ Cron.paginated(
+            'repositories',
+            startCursor,
+            'affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]',
+            `
+              nameWithOwner
+            `,
+          ) }
         }
       }
     `);
