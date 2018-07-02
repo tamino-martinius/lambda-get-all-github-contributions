@@ -21,6 +21,24 @@ class Cron {
     return query;
   }
 
+  async getRepositoryPage(startCursor?: string): Promise<RepositoryPage> {
+    return await github.query(`
+      query {
+        viewer{
+          repositories(${Cron.pageQuery(startCursor)}) {
+            totalCount
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+            nodes {
+              nameWithOwner
+            }
+          }
+        }
+      }
+    `);
+  }
 }
 
 console.log(apiToken);
