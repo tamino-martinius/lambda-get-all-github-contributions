@@ -16,3 +16,18 @@ export interface RepositoriesPage {
     };
   };
 }
+
+export interface RepositoriesContributedToPage {
+  viewer: {
+    repositoriesContributedTo: {
+      totalCount: number;
+      pageInfo: {
+        hasNextPage: boolean;
+        endCursor: string;
+      };
+      nodes: {
+        nameWithOwner: string;
+      }[];
+    };
+  };
+}
