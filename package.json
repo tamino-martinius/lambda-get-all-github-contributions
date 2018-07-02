@@ -63,7 +63,6 @@
     "@types/node": "^10.5.1",
     "@types/uglifyjs-webpack-plugin": "^1.1.0",
     "@types/webpack": "^4.4.4",
-    "aws-sam-local": "^0.2.11",
     "aws-sdk": "^2.266.1",
     "clean-webpack-plugin": "^0.1.19",
     "github-graphql-api": "^1.0.3",
