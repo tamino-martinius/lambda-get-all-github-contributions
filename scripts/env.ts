@@ -8,14 +8,16 @@ import {
 } from 'aws-sdk';
 import tsDedent from 'ts-dedent';
 
-export const AWS_REGION = process.env.npm_package_config_awsRegion || '';
-export const AWS_PROFILE = process.env.npm_package_config_awsProfile || '';
-export const BUCKET_NAME = process.env.npm_package_config_bucketName || '';
-export const STACK_NAME = process.env.npm_package_config_stackName || '';
-export const FUNCTION_NAME = process.env.npm_package_config_functionName || '';
-export const API_GATEWAY = process.env.npm_package_config_apiGateway === 'true';
-export const API_DOMAIN = process.env.npm_package_config_apiDomain || '';
-export const API_SUBDOMAIN = process.env.npm_package_config_apiSubdomain || '';
+const env = process.env;
+export const AWS_REGION = env.npm_package_config_awsRegion || '';
+export const AWS_PROFILE = env.npm_package_config_awsProfile || '';
+export const BUCKET_NAME = env.npm_package_config_bucketName || '';
+export const STACK_NAME = env.npm_package_config_stackName || '';
+export const FUNCTION_NAME = env.npm_package_config_functionName || '';
+export const API_GATEWAY = env.npm_package_config_apiGateway === 'true';
+export const API_DOMAIN = env.npm_package_config_apiDomain || '';
+export const API_SUBDOMAIN = env.npm_package_config_apiSubdomain || '';
+export const GITHUB_TOKEN = env.npm_config_gitHubToken || env.npm_package_config_gitHubToken;
 
 export enum TemplateType {
   INITIAL,
@@ -133,6 +135,11 @@ export const generateStack = (type: TemplateType) => {
         CodeUri: {
           Bucket: { Ref: 'LambdaFunctionS3BucketName' },
           Key: { Ref: 'LambdaFunctionS3Key' },
+        },
+        Environment: {
+          Variables: {
+            GITHUB_TOKEN,
+          },
         },
         Events: API_GATEWAY ? {
           ProxyApiGreedy: {
