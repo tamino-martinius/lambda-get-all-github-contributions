@@ -36,9 +36,12 @@ export const action = async () => {
   ensureDirectoryExistence(eventPath);
   writeFileSync(templatePath, JSON.stringify(finalStack.template));
   writeFileSync(eventPath, JSON.stringify({}));
-  return execSync(tsDedent`
-    sam local invoke -t "${templatePath}" -e "${eventPath}"
-  `).toString();
+  return execSync(
+    tsDedent`
+      sam local invoke -t "${templatePath}" -e "${eventPath}"
+    `,
+    { stdio: 'inherit' },
+  ).toString();
 };
 export default action;
 
