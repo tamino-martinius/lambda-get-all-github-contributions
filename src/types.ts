@@ -1,3 +1,7 @@
+export interface Dict<T> {
+  [key: string]: T;
+}
+
 export interface RepositoriesPage {
   viewer: {
     repositories: {
