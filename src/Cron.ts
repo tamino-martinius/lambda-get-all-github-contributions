@@ -16,6 +16,25 @@ export class Cron {
     console.log(apiToken);
   }
 
+  static paginated(resource: string, startCursor: string | undefined, slot: string): string {
+    let pageQuery = 'first: 100';
+    if (startCursor) {
+      pageQuery += `, after: "${startCursor}"`;
+    }
+    return `
+      ${ resource }(${ pageQuery }) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        nodes {
+          ${ slot }
+        }
+      }
+    `;
+  }
+
   async getRepositoryNames(): Promise<string[]> {
     let hasNextPage = true;
     let endCursor: string | undefined = undefined;
@@ -26,16 +45,8 @@ export class Cron {
       hasNextPage = pageInfo.hasNextPage;
       endCursor = pageInfo.endCursor;
       const nodes = repositoryPage.viewer.repositories.nodes;
-    }
-  }
-
-  static pageQuery(startCursor?: string): string {
-    let query = 'first: 100';
-    if (startCursor) {
-      query += `, after: "${startCursor}"`;
       nodes.forEach(node => repositoryNames[node.nameWithOwner] = true);
     }
-    return query;
     return Object.keys(repositoryNames);
   }
 
@@ -43,16 +54,9 @@ export class Cron {
     return await github.query(`
       query {
         viewer{
-          repositories(${Cron.pageQuery(startCursor)}) {
-            totalCount
-            pageInfo {
-              hasNextPage
-              endCursor
-            }
-            nodes {
-              nameWithOwner
-            }
-          }
+          ${ Cron.paginated('repositories', startCursor, `
+            nameWithOwner
+          `) }
         }
       }
     `);
