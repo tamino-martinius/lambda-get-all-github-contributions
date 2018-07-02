@@ -13,6 +13,14 @@ const github = new GitHub({
 class Cron {
   constructor() {
   }
+  static pageQuery(startCursor?: string): string {
+    let query = 'first: 100';
+    if (startCursor) {
+      query += `, after: "${startCursor}"`;
+    }
+    return query;
+  }
+
 }
 
 console.log(apiToken);
