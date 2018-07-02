@@ -41,7 +41,7 @@ export const action = async () => {
       sam local invoke -t "${templatePath}" -e "${eventPath}"
     `,
     { stdio: 'inherit' },
-  ).toString();
+  );
 };
 export default action;
 
