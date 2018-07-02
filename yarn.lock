@@ -1165,9 +1165,9 @@ get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
 
-github-graphql-api@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/github-graphql-api/-/github-graphql-api-1.0.3.tgz#e4ff3b01d46e1c0b1ac4a07c5aa22589a849a9c5"
+github-graphql-api@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/github-graphql-api/-/github-graphql-api-1.0.4.tgz#0f91dfa8d7a2018538bfadfe5e1117dd4e1a8a17"
 
 glob-parent@^3.1.0:
   version "3.1.0"
