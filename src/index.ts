@@ -61,4 +61,5 @@ console.log(apiToken);
 
 export default async (event: any, context: AWSLambda.Context) => {
   const cron = new Cron();
+  console.log(await cron.getRepositoryNames());
 };
