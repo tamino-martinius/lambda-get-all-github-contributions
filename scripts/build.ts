@@ -15,6 +15,7 @@ export const config = (isProduction: boolean = false) => {
   const result: webpack.Configuration = {
     context: ROOT_PATH,
     entry: resolve(SRC_PATH, 'index.ts'),
+    target: 'node',
     output: {
       library: 'handler',
       libraryTarget: 'commonjs',
