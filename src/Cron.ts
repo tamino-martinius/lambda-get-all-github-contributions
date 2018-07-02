@@ -1,6 +1,6 @@
 import { GitHub } from 'github-graphql-api';
 import {
-  RepositoryPage,
+  RepositoriesPage,
 } from './types';
 const apiToken = process.env.GITHUB_TOKEN;
 
@@ -20,7 +20,7 @@ export class Cron {
     let endCursor: string | undefined = undefined;
     const repositoryNames: string[] = [];
     while (hasNextPage) {
-      const repositoryPage: RepositoryPage = await this.getRepositoryPage(endCursor);
+      const repositoryPage: RepositoriesPage = await this.getRepositoryPage(endCursor);
       const pageInfo = repositoryPage.viewer.repositories.pageInfo;
       hasNextPage = pageInfo.hasNextPage;
       endCursor = pageInfo.endCursor;
@@ -38,7 +38,7 @@ export class Cron {
     return query;
   }
 
-  async getRepositoryPage(startCursor?: string): Promise<RepositoryPage> {
+  async getRepositoryPage(startCursor?: string): Promise<RepositoriesPage> {
     return await github.query(`
       query {
         viewer{

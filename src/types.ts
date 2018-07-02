@@ -1,4 +1,4 @@
-export interface RepositoryPage {
+export interface RepositoriesPage {
   viewer: {
     repositories: {
       totalCount: number;
