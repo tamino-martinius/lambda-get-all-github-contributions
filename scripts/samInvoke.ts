@@ -27,8 +27,6 @@ const ensureDirectoryExistence = (filePath: string) => {
   mkdirSync(dir);
 };
 
-const samPath = resolve(__dirname, '../node_modules/aws-sam-local/node_modules/.bin/sam');
-
 export const action = async () => {
   console.log(await buildAction());
   const finalStack = generateStack(FINAL_STACK_TYPE);
@@ -39,7 +37,7 @@ export const action = async () => {
   writeFileSync(templatePath, JSON.stringify(finalStack.template));
   writeFileSync(eventPath, JSON.stringify({}));
   return execSync(tsDedent`
-    ${samPath} local invoke -t "${templatePath}" -e "${eventPath}"
+    sam local invoke -t "${templatePath}" -e "${eventPath}"
   `).toString();
 };
 export default action;
