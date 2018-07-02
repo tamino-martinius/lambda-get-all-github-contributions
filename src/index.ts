@@ -13,6 +13,22 @@ const github = new GitHub({
 class Cron {
   constructor() {
   }
+
+  async getRepositoryNames(): Promise<string[]> {
+    let hasNextPage = true;
+    let endCursor: string | undefined = undefined;
+    const repositoryNames: string[] = [];
+    while (hasNextPage) {
+      const repositoryPage: RepositoryPage = await this.getRepositoryPage(endCursor);
+      const pageInfo = repositoryPage.viewer.repositories.pageInfo;
+      hasNextPage = pageInfo.hasNextPage;
+      endCursor = pageInfo.endCursor;
+      const nodes = repositoryPage.viewer.repositories.nodes;
+      repositoryNames.push(...nodes.map(node => node.nameWithOwner));
+    }
+    return repositoryNames;
+  }
+
   static pageQuery(startCursor?: string): string {
     let query = 'first: 100';
     if (startCursor) {
