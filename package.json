@@ -5,6 +5,7 @@
   "description": "Fetch all GitHub Contributions and save them to a json on S3.",
   "main": "dist/index.js",
   "config": {
+    "gitHubToken": "",
     "awsRegion": "eu-central-1",
     "awsProfile": "",
     "bucketName": "lambda-get-all-github-contributions",
