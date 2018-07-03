@@ -32,6 +32,9 @@ export const config = (isProduction: boolean = false) => {
         },
       ],
     },
+    externals: [
+      'aws-sdk',
+    ],
     resolve: {
       extensions: ['.js', '.ts', '.json'],
     },
