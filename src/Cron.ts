@@ -47,14 +47,14 @@ export class Cron {
 
   static paginated(
     resource: string,
-    startCursor: string | undefined,
+    cursor: string | undefined,
     filter: string,
     slot: string)
   : string {
 
     let pageQuery = 'first: 100';
-    if (startCursor) {
-      pageQuery += `, after: "${startCursor}"`;
+    if (cursor) {
+      pageQuery += `, after: "${cursor}"`;
     }
     if (filter) {
       pageQuery += `, ${filter}`;
@@ -102,13 +102,13 @@ export class Cron {
     return repositories;
   }
 
-  async getRepositoriesPage(startCursor?: string): Promise<RepositoriesPage> {
+  async getRepositoriesPage(cursor?: string): Promise<RepositoriesPage> {
     const response: RepositoriesPageResponse = await github.query(`
       query {
         user(login: "${ this.userLogin}") {
           ${ Cron.paginated(
             'repositories',
-            startCursor,
+            cursor,
             'affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]',
             `
               name
@@ -136,13 +136,13 @@ export class Cron {
     return branchNames;
   }
 
-  async getBranchesPage(repo: Repository, startCursor?: string): Promise<BranchesPage> {
+  async getBranchesPage(repo: Repository, cursor?: string): Promise<BranchesPage> {
     const response: BranchesPageResponse = await github.query(`
       query {
         repository(owner: "${ repo.owner }", name: "${ repo.name }") {
           ${ Cron.paginated(
             'refs',
-            startCursor,
+            cursor,
             `refPrefix: "refs/heads/"`,
             `
               name
