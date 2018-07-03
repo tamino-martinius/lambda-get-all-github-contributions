@@ -39,6 +39,31 @@ export interface BranchesPage {
   }[];
 }
 
+export interface HistoryPageResponse {
+  repository: {
+    ref: {
+      target: {
+        history: HistoryPage;
+      };
+    };
+  };
+}
+
+export interface HistoryPage {
+  totalCount: number;
+  pageInfo: {
+    hasNextPage: boolean;
+    endCursor: string;
+  };
+  nodes: {
+    oid: string;
+    additions: number;
+    deletions: number;
+    changedFiles: number;
+    committedDate: string;
+  }[];
+}
+
 export interface ViewerResponse {
   viewer: Viewer;
 }
