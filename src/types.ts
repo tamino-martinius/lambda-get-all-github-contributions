@@ -55,13 +55,7 @@ export interface HistoryPage {
     hasNextPage: boolean;
     endCursor: string;
   };
-  nodes: {
-    oid: string;
-    additions: number;
-    deletions: number;
-    changedFiles: number;
-    committedDate: string;
-  }[];
+  nodes: Commit[];
 }
 
 export interface ViewerResponse {
@@ -77,4 +71,12 @@ export interface Repository {
   owner: string;
   name: string;
   branches: string[];
+}
+
+export interface Commit {
+  oid: string;
+  additions: number;
+  deletions: number;
+  changedFiles: number;
+  committedDate: string;
 }
