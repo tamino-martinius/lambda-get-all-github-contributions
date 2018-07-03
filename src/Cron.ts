@@ -1,10 +1,12 @@
 import { GitHub } from 'github-graphql-api';
 import {
+  BranchesPage,
+  BranchesPageResponse,
   RepositoriesPage,
   RepositoriesPageResponse,
-  ViewerResponse,
   Repository,
   Viewer,
+  ViewerResponse,
 } from './types';
 const apiToken = process.env.GITHUB_TOKEN;
 
@@ -112,6 +114,24 @@ export class Cron {
       }
     `);
     return response.user.repositories;
+  }
+
+  async getBranchesPage(repo: Repository, startCursor?: string): Promise<BranchesPage> {
+    const response: BranchesPageResponse = await github.query(`
+      query {
+        repository(owner: "${ repo.owner }", name: "${ repo.name }") {
+          ${ Cron.paginated(
+            'refs',
+            startCursor,
+            `refPrefix: "refs/heads/"`,
+            `
+              name
+            `,
+          )}
+        }
+      }
+    `);
+    return response.repository.refs;
   }
 }
 
