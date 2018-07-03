@@ -95,7 +95,7 @@ export class Cron {
   async getRepositoriesPage(startCursor?: string): Promise<RepositoriesPage> {
     const response: RepositoriesPageResponse = await github.query(`
       query {
-        viewer {
+        user(login: "${ this.userLogin}") {
           ${ Cron.paginated(
             'repositories',
             startCursor,
