@@ -71,6 +71,7 @@ export interface Repository {
   owner: string;
   name: string;
   branches: string[];
+  commits: Dict<Commit>;
 }
 
 export interface Commit {
