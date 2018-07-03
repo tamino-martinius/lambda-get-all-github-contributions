@@ -24,7 +24,35 @@ export class DB {
   }
 
   async init() {
+    console.log(await this.createTable());
+    console.log(await this.listTables());
 
+  }
+
+  async listTables() {
+    return await dynamoDB.listTables({}).promise();
+  }
+
+  async createTable() {
+    return await dynamoDB.createTable({
+      AttributeDefinitions: [
+        {
+          AttributeName: 'userId',
+          AttributeType: 'S',
+        },
+      ],
+      KeySchema: [
+        {
+          AttributeName: 'userId',
+          KeyType: 'HASH',
+        },
+      ],
+      TableName: 'lambda-github-contributions',
+      ProvisionedThroughput: {
+        ReadCapacityUnits: 5,
+        WriteCapacityUnits: 5,
+      },
+    }).promise();
   }
 }
 
