@@ -33,10 +33,7 @@ export class Cron {
   }
 
   async init() {
-    await this.initRepositories();
-  }
-
-  async initRepositories() {
+    this.repositories = await this.getRepositories();
   }
 
   static paginated(
