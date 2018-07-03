@@ -18,3 +18,9 @@ export interface RepositoriesPageResponse {
     repositories: RepositoriesPage;
   };
 }
+
+export interface ViewerResponse {
+  viewer: {
+    id: string;
+  };
+}
