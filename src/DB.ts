@@ -1,7 +1,7 @@
 import { DynamoDB } from 'aws-sdk';
 const AWS_REGION = process.env.AWS_REGION || 'eu-central-1';
 const ENDPOINT = process.env.AWS_SAM_LOCAL ? 'http://docker.for.mac.localhost:8000' : undefined;
-
+const TABLE_NAME = 'lambda-github-contributions';
 const dynamoDB = new DynamoDB({
   region: AWS_REGION,
   endpoint: ENDPOINT,
@@ -24,9 +24,11 @@ export class DB {
   }
 
   async init() {
-    console.log(await this.createTable());
-    console.log(await this.listTables());
-
+    // make sure table exists
+    const tableList = await this.listTables();
+    if (!tableList.TableNames || !tableList.TableNames.includes(TABLE_NAME)) {
+      console.log(await this.createTable());
+    }
   }
 
   async listTables() {
@@ -47,7 +49,7 @@ export class DB {
           KeyType: 'HASH',
         },
       ],
-      TableName: 'lambda-github-contributions',
+      TableName: TABLE_NAME,
       ProvisionedThroughput: {
         ReadCapacityUnits: 5,
         WriteCapacityUnits: 5,
