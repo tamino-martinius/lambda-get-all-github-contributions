@@ -79,17 +79,21 @@ export class Cron {
     return response.viewer;
   }
 
-  async getRepositoryNames(): Promise<string[]> {
+  async getRepositories(): Promise<Repository[]> {
     let hasNextPage = true;
     let endCursor: string | undefined = undefined;
-    const repositoryNames: string[] = [];
+    const repositories: Repository[] = [];
     while (hasNextPage) {
       const repositoryPage: RepositoriesPage = await this.getRepositoriesPage(endCursor);
       hasNextPage = repositoryPage.pageInfo.hasNextPage;
       endCursor = repositoryPage.pageInfo.endCursor;
-      repositoryNames.push(...repositoryPage.nodes.map(node => node.nameWithOwner));
+      repositories.push(...repositoryPage.nodes.map(node => ({
+        owner: node.owner.login,
+        name: node.name,
+        branches: [],
+      })));
     }
-    return repositoryNames;
+    return repositories;
   }
 
   async getRepositoriesPage(startCursor?: string): Promise<RepositoriesPage> {
@@ -101,13 +105,16 @@ export class Cron {
             startCursor,
             'affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]',
             `
-              nameWithOwner
+              name
+              owner {
+                login
+              }
             `,
-          ) }
+          )}
         }
       }
     `);
-    return response.viewer.repositories;
+    return response.user.repositories;
   }
 }
 

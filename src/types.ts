@@ -9,12 +9,15 @@ export interface RepositoriesPage {
     endCursor: string;
   };
   nodes: {
-    nameWithOwner: string;
+    owner: {
+      login: string;
+    };
+    name: string;
   }[];
 }
 
 export interface RepositoriesPageResponse {
-  viewer: {
+  user: {
     repositories: RepositoriesPage;
   };
 }
