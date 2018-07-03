@@ -3,6 +3,7 @@ import {
   BranchesPage,
   BranchesPageResponse,
   Commit,
+  Dict,
   HistoryPage,
   HistoryPageResponse,
   RepositoriesPage,
@@ -39,13 +40,31 @@ export class Cron {
 
   async init() {
     await this.initRepositories();
+    await this.initCommits();
   }
 
   async initRepositories() {
     this.repositories = await this.getRepositories();
-    await Promise.all(this.repositories.map(async (repo) => {
+    for (const repo of this.repositories) {
+      console.log(`get branches for ${repo.owner}/${repo.name}`);
       repo.branches = await this.getBranchNames(repo);
-    }));
+    }
+  }
+
+  async initCommits() {
+    for (const repo of this.repositories) {
+      const commitDict: Dict<Commit> = {};
+      for (const branch of repo.branches) {
+        console.log(`get commits for ${repo.owner}/${repo.name}:${branch}`);
+
+        const commits = await this.getCommits(repo, branch);
+        for (const commit of commits) {
+          // Use dictionary to deduplicate entries
+          commitDict[commit.oid] = commit;
+        }
+      }
+      repo.commits = Object.values(commitDict);
+    }
   }
 
   static paginated(
