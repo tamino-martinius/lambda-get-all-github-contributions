@@ -2,6 +2,9 @@ import { GitHub } from 'github-graphql-api';
 import {
   BranchesPage,
   BranchesPageResponse,
+  Commit,
+  HistoryPage,
+  HistoryPageResponse,
   RepositoriesPage,
   RepositoriesPageResponse,
   Repository,
@@ -152,6 +155,19 @@ export class Cron {
       }
     `);
     return response.repository.refs;
+  }
+
+  async getCommits(repo: Repository, branch: string): Promise<Commit[]> {
+    let hasNextPage = true;
+    let endCursor: string | undefined = undefined;
+    const commits: Commit[] = [];
+    while (hasNextPage) {
+      const historyPage: HistoryPage = await this.getHistoryPage(repo, branch, endCursor);
+      hasNextPage = historyPage.pageInfo.hasNextPage;
+      endCursor = historyPage.pageInfo.endCursor;
+      commits.push(...historyPage.nodes);
+    }
+    return commits;
   }
 
   async getHistoryPage(repo: Repository, branch: string, cursor?: string): Promise<HistoryPage> {
