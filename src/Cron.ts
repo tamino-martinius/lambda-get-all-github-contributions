@@ -44,6 +44,21 @@ export class Cron {
     `;
   }
 
+  async getViewerId(): Promise<string> {
+    const response: {
+      viewer: {
+        id: string;
+      };
+    } = await github.query(`
+      query {
+        viewer {
+          id
+        }
+      }
+    `);
+    return response.viewer.id;
+  }
+
   async getRepositoryNames(): Promise<string[]> {
     let hasNextPage = true;
     let endCursor: string | undefined = undefined;
