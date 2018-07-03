@@ -116,6 +116,19 @@ export class Cron {
     return response.user.repositories;
   }
 
+  async getBranchNames(repo: Repository): Promise<string[]> {
+    let hasNextPage = true;
+    let endCursor: string | undefined = undefined;
+    const branchNames: string[] = [];
+    while (hasNextPage) {
+      const branchesPage: BranchesPage = await this.getBranchesPage(repo, endCursor);
+      hasNextPage = branchesPage.pageInfo.hasNextPage;
+      endCursor = branchesPage.pageInfo.endCursor;
+      branchNames.push(...branchesPage.nodes.map(node => node.name));
+    }
+    return branchNames;
+  }
+
   async getBranchesPage(repo: Repository, startCursor?: string): Promise<BranchesPage> {
     const response: BranchesPageResponse = await github.query(`
       query {
