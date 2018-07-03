@@ -35,7 +35,14 @@ export class Cron {
   }
 
   async init() {
+    await this.initRepositories();
+  }
+
+  async initRepositories() {
     this.repositories = await this.getRepositories();
+    await Promise.all(this.repositories.map(async (repo) => {
+      repo.branches = await this.getBranchNames(repo);
+    }));
   }
 
   static paginated(
