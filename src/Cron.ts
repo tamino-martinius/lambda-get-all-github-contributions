@@ -153,6 +153,34 @@ export class Cron {
     `);
     return response.repository.refs;
   }
+
+  async getHistoryPage(repo: Repository, branch: string, cursor?: string): Promise<HistoryPage> {
+    const response: HistoryPageResponse = await github.query(`
+      query {
+        repository(owner: "${ repo.owner }", name: "${ repo.name }") {
+          ref(qualifiedName: "${ branch }") {
+            target {
+              ... on Commit {
+                ${ Cron.paginated(
+                  'history',
+                  cursor,
+                  '',
+                  `
+                    oid
+                    additions
+                    deletions
+                    changedFiles
+                    committedDate
+                  `,
+                )}
+              }
+            }
+          }
+        }
+      }
+    `);
+    return response.repository.ref.target.history;
+  }
 }
 
 export default Cron;
