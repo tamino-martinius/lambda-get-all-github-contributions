@@ -22,6 +22,23 @@ export interface RepositoriesPageResponse {
   };
 }
 
+export interface BranchesPageResponse {
+  repository: {
+    refs: BranchesPage;
+  };
+}
+
+export interface BranchesPage {
+  totalCount: number;
+  pageInfo: {
+    hasNextPage: boolean;
+    endCursor: string;
+  };
+  nodes: {
+    name: string;
+  }[];
+}
+
 export interface ViewerResponse {
   viewer: Viewer;
 }
