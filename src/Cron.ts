@@ -100,7 +100,7 @@ export class Cron {
         owner: node.owner.login,
         name: node.name,
         branches: [],
-        commits: {},
+        commits: [],
       })));
     }
     return repositories;
