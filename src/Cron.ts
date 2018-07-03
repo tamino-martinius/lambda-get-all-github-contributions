@@ -2,6 +2,9 @@ import { GitHub } from 'github-graphql-api';
 import {
   RepositoriesPage,
   RepositoriesPageResponse,
+  ViewerResponse,
+  Repository,
+  Viewer,
 } from './types';
 const apiToken = process.env.GITHUB_TOKEN;
 
@@ -12,8 +15,28 @@ const github = new GitHub({
 });
 
 export class Cron {
-  constructor() {
+  repositories: Repository[] = [];
+  userId: string;
+  userLogin: string;
+
+  constructor(userId: string, userLogin: string) {
+    this.userId = userId;
+    this.userLogin = userLogin;
     console.log(apiToken);
+  }
+
+  static async create(): Promise<Cron> {
+    const { id, login } = await this.getViewer();
+    const cron = new Cron(id, login);
+    await cron.init();
+    return cron;
+  }
+
+  async init() {
+    await this.initRepositories();
+  }
+
+  async initRepositories() {
   }
 
   static paginated(
@@ -44,19 +67,16 @@ export class Cron {
     `;
   }
 
-  async getViewerId(): Promise<string> {
-    const response: {
-      viewer: {
-        id: string;
-      };
-    } = await github.query(`
+  static async getViewer(): Promise<Viewer> {
+    const response: ViewerResponse = await github.query(`
       query {
         viewer {
           id
+          login
         }
       }
     `);
-    return response.viewer.id;
+    return response.viewer;
   }
 
   async getRepositoryNames(): Promise<string[]> {

@@ -20,7 +20,16 @@ export interface RepositoriesPageResponse {
 }
 
 export interface ViewerResponse {
-  viewer: {
-    id: string;
-  };
+  viewer: Viewer;
+}
+
+export interface Viewer {
+  id: string;
+  login: string;
+}
+
+export interface Repository {
+  owner: string;
+  name: string;
+  branches: string[];
 }
