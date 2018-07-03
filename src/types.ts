@@ -3,16 +3,18 @@ export interface Dict<T> {
 }
 
 export interface RepositoriesPage {
+  totalCount: number;
+  pageInfo: {
+    hasNextPage: boolean;
+    endCursor: string;
+  };
+  nodes: {
+    nameWithOwner: string;
+  }[];
+}
+
+export interface RepositoriesPageResponse {
   viewer: {
-    repositories: {
-      totalCount: number;
-      pageInfo: {
-        hasNextPage: boolean;
-        endCursor: string;
-      };
-      nodes: {
-        nameWithOwner: string;
-      }[];
-    };
+    repositories: RepositoriesPage;
   };
 }
