@@ -56,6 +56,12 @@ export class DB {
       },
     }).promise();
   }
+
+  async deleteTable() {
+    return await dynamoDB.deleteTable({
+      TableName: TABLE_NAME,
+    }).promise();
+  }
 }
 
 export default DB;
