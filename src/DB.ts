@@ -84,6 +84,20 @@ export class DB {
       },
     }).promise();
   }
+
+  async setItem() {
+    return dynamoDB.putItem({
+      TableName: TABLE_NAME,
+      Item: {
+        userId: {
+          S: 'test',
+        },
+        data: {
+          S: JSON.stringify({ foo: 'bar' }),
+        },
+      },
+    }).promise();
+  }
 }
 
 export default DB;
