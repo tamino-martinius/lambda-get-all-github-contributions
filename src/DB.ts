@@ -73,6 +73,17 @@ export class DB {
       },
     }).promise();
   }
+
+  async deleteItem() {
+    return await dynamoDB.getItem({
+      TableName: TABLE_NAME,
+      Key: {
+        userId: {
+          S: 'test',
+        },
+      },
+    }).promise();
+  }
 }
 
 export default DB;
