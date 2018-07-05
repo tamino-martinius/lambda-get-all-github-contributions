@@ -123,6 +123,7 @@ export class Cron {
           repositories.push({
             owner: node.owner.login,
             name: node.name,
+            key: `${node.owner.login}/${node.name}`,
             branches: [],
             commits: [],
             rootId: node.defaultBranchRef.target.oid,

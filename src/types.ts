@@ -75,6 +75,7 @@ export interface UserResponse {
 export interface Repository {
   owner: string;
   name: string;
+  key: string;
   rootId: string;
   count: number;
   branches: Branch[];
