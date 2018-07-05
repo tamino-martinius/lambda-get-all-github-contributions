@@ -39,13 +39,13 @@ export class DB {
     return await dynamoDB.createTable({
       AttributeDefinitions: [
         {
-          AttributeName: 'userId',
+          AttributeName: 'id',
           AttributeType: 'S',
         },
       ],
       KeySchema: [
         {
-          AttributeName: 'userId',
+          AttributeName: 'id',
           KeyType: 'HASH',
         },
       ],
@@ -67,8 +67,8 @@ export class DB {
     return await dynamoDB.getItem({
       TableName: TABLE_NAME,
       Key: {
-        userId: {
           S: 'test',
+        id: {
         },
       },
     }).promise();
@@ -78,8 +78,8 @@ export class DB {
     return await dynamoDB.getItem({
       TableName: TABLE_NAME,
       Key: {
-        userId: {
           S: 'test',
+        id: {
         },
       },
     }).promise();
@@ -89,8 +89,8 @@ export class DB {
     return dynamoDB.putItem({
       TableName: TABLE_NAME,
       Item: {
-        userId: {
           S: 'test',
+        id: {
         },
         data: {
           S: JSON.stringify({ foo: 'bar' }),
