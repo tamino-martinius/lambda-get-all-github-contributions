@@ -58,13 +58,10 @@ export interface HistoryPage {
   nodes: Commit[];
 }
 
-export interface ViewerResponse {
-  viewer: Viewer;
-}
-
-export interface Viewer {
-  id: string;
-  login: string;
+export interface UserResponse {
+  user: {
+    id: string;
+  };
 }
 
 export interface Repository {

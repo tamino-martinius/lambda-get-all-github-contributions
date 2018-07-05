@@ -9,8 +9,7 @@ import {
   RepositoriesPage,
   RepositoriesPageResponse,
   Repository,
-  Viewer,
-  ViewerResponse,
+  UserResponse,
 } from './types';
 const apiToken = process.env.GITHUB_TOKEN;
 
@@ -31,8 +30,8 @@ export class Cron {
     console.log(apiToken);
   }
 
-  static async create(): Promise<Cron> {
-    const { id, login } = await this.getViewer();
+  static async create(login: string): Promise<Cron> {
+    const id = await this.getIdFromUser(login);
     const cron = new Cron(id, login);
     await cron.init();
     return cron;
@@ -95,16 +94,15 @@ export class Cron {
     `;
   }
 
-  static async getViewer(): Promise<Viewer> {
-    const response: ViewerResponse = await github.query(`
+  static async getIdFromUser(login: string): Promise<string> {
+    const response: UserResponse = await github.query(`
       query {
-        viewer {
+        user(login: "${ login }") {
           id
-          login
         }
       }
     `);
-    return response.viewer;
+    return response.user.id;
   }
 
   async getRepositories(): Promise<Repository[]> {
