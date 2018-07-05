@@ -75,8 +75,15 @@ export interface UserResponse {
 export interface Repository {
   owner: string;
   name: string;
-  branches: string[];
+  rootId: string;
+  count: number;
+  branches: Branch[];
   commits: Commit[];
+}
+
+export interface Branch {
+  name: string;
+  fetched: number;
 }
 
 export interface Commit {

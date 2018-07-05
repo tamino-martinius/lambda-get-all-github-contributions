@@ -10,6 +10,7 @@ import {
   RepositoriesPageResponse,
   Repository,
   UserResponse,
+  Branch,
 } from './types';
 const apiToken = process.env.GITHUB_TOKEN;
 
@@ -46,7 +47,11 @@ export class Cron {
     this.repositories = await this.getRepositories();
     for (const repo of this.repositories) {
       console.log(`get branches for ${repo.owner}/${repo.name}`);
-      repo.branches = await this.getBranchNames(repo);
+      const branchNames = await this.getBranchNames(repo);
+      repo.branches = branchNames.map((name => ({
+        name,
+        fetched: 0,
+      })));
     }
   }
 
@@ -118,6 +123,8 @@ export class Cron {
         name: node.name,
         branches: [],
         commits: [],
+        rootId: node.defaultBranchRef.target.oid,
+        count: node.defaultBranchRef.target.history.totalCount,
       })));
     }
     return repositories;
@@ -185,12 +192,12 @@ export class Cron {
     return response.repository.refs;
   }
 
-  async getCommits(repo: Repository, branch: string): Promise<Commit[]> {
+  async getCommits(repo: Repository, branch: Branch): Promise<Commit[]> {
     let hasNextPage = true;
     let endCursor: string | undefined = undefined;
     const commits: Commit[] = [];
     while (hasNextPage) {
-      const historyPage: HistoryPage = await this.getHistoryPage(repo, branch, endCursor);
+      const historyPage: HistoryPage = await this.getHistoryPage(repo, branch.name, endCursor);
       hasNextPage = historyPage.pageInfo.hasNextPage;
       endCursor = historyPage.pageInfo.endCursor;
       commits.push(...historyPage.nodes);
