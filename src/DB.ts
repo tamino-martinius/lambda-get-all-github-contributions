@@ -25,10 +25,15 @@ export class DB {
 
   async init() {
     // make sure table exists
+    // console.log(await this.deleteTable());
     const tableList = await this.listTables();
     if (!tableList.TableNames || !tableList.TableNames.includes(TABLE_NAME)) {
       console.log(await this.createTable());
     }
+
+    console.log(await this.writeItem('test', { foo: 'bar' }));
+    console.log(await this.deleteItem('test'));
+    console.log(await this.readItem('test'));
   }
 
   async listTables() {
