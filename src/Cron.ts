@@ -67,7 +67,7 @@ export class Cron {
           commitDict[commit.oid] = commit;
         }
       }
-      repo.commits = Object.values(commitDict);
+      repo.commits = commitDict;
     }
   }
 
