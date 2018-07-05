@@ -142,7 +142,7 @@ export class Cron {
             name: node.name,
             key: `${node.owner.login}/${node.name}`,
             branches: [],
-            commits: [],
+            commits: {},
             rootId: node.defaultBranchRef.target.oid,
             count: node.defaultBranchRef.target.history.totalCount,
           });
