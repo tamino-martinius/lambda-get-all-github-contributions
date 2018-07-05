@@ -40,6 +40,7 @@ export class Cron {
 
   async init() {
     await this.initRepositories();
+    await this.initBranches();
     await this.initCommits();
   }
 
