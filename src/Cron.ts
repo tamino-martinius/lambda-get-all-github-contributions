@@ -44,7 +44,24 @@ export class Cron {
   }
 
   async initRepositories() {
-    this.repositories = await this.getRepositories();
+    const repositories = await this.getRepositories();
+    const repoDict: Dict<Repository> = {};
+    for (const repo of repositories) {
+      repoDict[repo.key] = repo;
+    }
+    for (const repo of this.repositories) {
+      if (repoDict[repo.key]) {
+        const dict = repoDict[repo.key];
+        if (dict.rootId === repo.rootId) {
+          dict.branches = repo.branches;
+          dict.commits = repo.commits;
+        }
+      }
+    }
+    this.repositories = Object.values(repoDict);
+  }
+
+  async initBranches() {
     for (const repo of this.repositories) {
       console.log(`get branches for ${repo.owner}/${repo.name}`);
       const branchNames = await this.getBranchNames(repo);
