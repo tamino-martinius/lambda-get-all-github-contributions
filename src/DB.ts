@@ -63,37 +63,41 @@ export class DB {
     }).promise();
   }
 
-  async getItem() {
+  async readItem(id: string): Promise<any> {
+    const record = await dynamoDB.getItem({
+      TableName: TABLE_NAME,
+      Key: {
+        id: {
+          S: id,
+        },
+      },
+    }).promise();
+    if (record.Item && record.Item.data && record.Item.data.S) {
+      return JSON.parse(record.Item.data.S);
+    }
+    return undefined;
+  }
+
+  async deleteItem(id: string) {
     return await dynamoDB.getItem({
       TableName: TABLE_NAME,
       Key: {
-          S: 'test',
         id: {
+          S: id,
         },
       },
     }).promise();
   }
 
-  async deleteItem() {
-    return await dynamoDB.getItem({
-      TableName: TABLE_NAME,
-      Key: {
-          S: 'test',
-        id: {
-        },
-      },
-    }).promise();
-  }
-
-  async setItem() {
+  async writeItem(id: string, data: any) {
     return dynamoDB.putItem({
       TableName: TABLE_NAME,
       Item: {
-          S: 'test',
         id: {
+          S: id,
         },
         data: {
-          S: JSON.stringify({ foo: 'bar' }),
+          S: JSON.stringify(data),
         },
       },
     }).promise();
