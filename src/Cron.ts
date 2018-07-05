@@ -118,14 +118,18 @@ export class Cron {
       const repositoryPage: RepositoriesPage = await this.getRepositoriesPage(endCursor);
       hasNextPage = repositoryPage.pageInfo.hasNextPage;
       endCursor = repositoryPage.pageInfo.endCursor;
-      repositories.push(...repositoryPage.nodes.map(node => ({
-        owner: node.owner.login,
-        name: node.name,
-        branches: [],
-        commits: [],
-        rootId: node.defaultBranchRef.target.oid,
-        count: node.defaultBranchRef.target.history.totalCount,
-      })));
+      for (const node of repositoryPage.nodes) {
+        if (node.defaultBranchRef) {
+          repositories.push({
+            owner: node.owner.login,
+            name: node.name,
+            branches: [],
+            commits: [],
+            rootId: node.defaultBranchRef.target.oid,
+            count: node.defaultBranchRef.target.history.totalCount,
+          });
+        }
+      }
     }
     return repositories;
   }
