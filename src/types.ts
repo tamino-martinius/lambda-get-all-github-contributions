@@ -12,6 +12,14 @@ export interface RepositoriesPage {
     owner: {
       login: string;
     };
+    defaultBranchRef :{
+      target: {
+        oid: string;
+        history: {
+          totalCount: number;
+        };
+      };
+    };
     name: string;
   }[];
 }

@@ -136,6 +136,16 @@ export class Cron {
               owner {
                 login
               }
+              defaultBranchRef {
+                target {
+                  oid
+                  ... on Commit {
+                    history {
+                      totalCount
+                    }
+                  }
+                }
+              }
             `,
           )}
         }
