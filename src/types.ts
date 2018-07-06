@@ -15,9 +15,6 @@ export interface RepositoriesPage {
     defaultBranchRef :{
       target: {
         oid: string;
-        history: {
-          totalCount: number;
-        };
       };
     };
     name: string;
