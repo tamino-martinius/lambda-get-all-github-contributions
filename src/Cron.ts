@@ -87,22 +87,23 @@ export class Cron {
     resource: string,
     cursor: string | undefined,
     filter: string,
-    slot: string)
-  : string {
+    slot: string,
+    asc: boolean = true,
+  ) : string {
 
-    let pageQuery = 'first: 100';
+    let pageQuery = `${ asc ? 'first' : 'last' }: 100`;
     if (cursor) {
-      pageQuery += `, after: "${cursor}"`;
+      pageQuery += `, ${ asc ? 'after' : 'before' }: "${ cursor }"`;
     }
     if (filter) {
-      pageQuery += `, ${filter}`;
+      pageQuery += `, ${ filter }`;
     }
     return `
       ${ resource }(${ pageQuery }) {
         totalCount
         pageInfo {
-          hasNextPage
-          endCursor
+          ${ asc ? 'hasNextPage' : 'hasPreviousPage' }
+          ${ asc ? 'endCursor' : 'startCursor' }
         }
         nodes {
           ${ slot }
