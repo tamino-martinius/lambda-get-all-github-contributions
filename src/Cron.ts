@@ -128,24 +128,25 @@ export class Cron {
     return response.user.id;
   }
 
-  async getRepositories(): Promise<Repository[]> {
+  async getRepositories(): Promise<Dict<Repository>> {
     let hasNextPage = true;
     let endCursor: string | undefined = undefined;
-    const repositories: Repository[] = [];
+    const repositories: Dict<Repository> = {};
     while (hasNextPage) {
       const repositoryPage: RepositoriesPage = await this.getRepositoriesPage(endCursor);
       hasNextPage = repositoryPage.pageInfo.hasNextPage;
       endCursor = repositoryPage.pageInfo.endCursor;
       for (const node of repositoryPage.nodes) {
         if (node.defaultBranchRef) {
-          repositories.push({
+          const repo: Repository = {
             owner: node.owner.login,
             name: node.name,
             key: `${node.owner.login}/${node.name}`,
-            branches: [],
-            commits: {},
+            branches: {},
+            ownCommits: {},
             rootId: node.defaultBranchRef.target.oid,
-          });
+          };
+          repositories[repo.key] = repo;
         }
       }
     }
