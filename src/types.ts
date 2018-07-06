@@ -41,6 +41,11 @@ export interface BranchesPage {
   };
   nodes: {
     name: string;
+    target: {
+      history: {
+        totalCount: number;
+      };
+    };
   }[];
 }
 
