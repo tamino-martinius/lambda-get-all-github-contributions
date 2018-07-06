@@ -1,5 +1,6 @@
 import { GitHub } from 'github-graphql-api';
 import {
+  Branch,
   BranchesPage,
   BranchesPageResponse,
   Commit,
@@ -10,7 +11,6 @@ import {
   RepositoriesPageResponse,
   Repository,
   UserResponse,
-  Branch,
 } from './types';
 const apiToken = process.env.GITHUB_TOKEN;
 
