@@ -243,7 +243,7 @@ export class Cron {
                 ${ Cron.paginated(
                   'history',
                   cursor,
-                  `author: { id: "${ this.userId }" }`,
+                  '',
                   `
                     committer{
                       user {
