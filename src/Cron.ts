@@ -196,8 +196,15 @@ export class Cron {
             `refPrefix: "refs/heads/"`,
             `
               name
+              target {
+                ... on Commit {
+                  history {
+                    totalCount
+                  }
+                }
+              }
             `,
-          )}
+          ) }
         }
       }
     `);
