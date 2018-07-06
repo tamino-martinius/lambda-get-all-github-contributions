@@ -70,18 +70,21 @@ export class Cron {
   }
 
   async initCommits() {
-    for (const repo of this.repositories) {
-      const commitDict: Dict<Commit> = {};
-      for (const branch of repo.branches) {
-        console.log(`get commits for ${repo.owner}/${repo.name}:${branch}`);
+    for (const repo of Object.values(this.repositories)) {
+      for (const branch of Object.values(repo.branches)) {
+        console.log(`get commits for ${ repo.key }:${ branch.name }`);
 
         const commits = await this.getCommits(repo, branch);
-        for (const commit of commits) {
-          // Use dictionary to deduplicate entries
-          commitDict[commit.oid] = commit;
+        console.log(Object.keys(commits).length);
+
+        for (const oid in commits) {
+          const commit = commits[oid];
+          branch.commits[oid] = commit;
+          if (commit.committerId === this.userId) {
+            repo.ownCommits[oid] = commit;
+          }
         }
       }
-      repo.commits = commitDict;
     }
   }
 
