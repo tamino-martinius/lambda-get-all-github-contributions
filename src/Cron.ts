@@ -220,15 +220,25 @@ export class Cron {
     return response.repository.refs;
   }
 
-  async getCommits(repo: Repository, branch: Branch): Promise<Commit[]> {
-    let hasNextPage = true;
-    let endCursor: string | undefined = undefined;
-    const commits: Commit[] = [];
-    while (hasNextPage) {
-      const historyPage: HistoryPage = await this.getHistoryPage(repo, branch.name, endCursor);
-      hasNextPage = historyPage.pageInfo.hasNextPage;
-      endCursor = historyPage.pageInfo.endCursor;
-      commits.push(...historyPage.nodes);
+  async getCommits(repo: Repository, branch: Branch): Promise<Dict<Commit>> {
+    const commitCount = Object.keys(branch.commits).length;
+    let hasPreviousPage = commitCount < branch.count;
+    let startCursor = `${ repo.rootId } ${ branch.count - commitCount }`;
+    const commits: Dict<Commit> = {};
+    while (hasPreviousPage) {
+      const historyPage: HistoryPage = await this.getHistoryPage(repo, branch.name, startCursor);
+      hasPreviousPage = historyPage.pageInfo.hasPreviousPage;
+      startCursor = historyPage.pageInfo.startCursor;
+      for (const node of historyPage.nodes) {
+        commits[node.oid] = {
+          committerId: node.committer.user.id,
+          oid: node.oid,
+          additions: node.additions,
+          deletions: node.deletions,
+          changedFiles: node.changedFiles,
+          committedDate: node.committedDate,
+        };
+      }
     }
     return commits;
   }
