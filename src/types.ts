@@ -65,7 +65,18 @@ export interface HistoryPage {
     hasPreviousPage: boolean;
     startCursor: string;
   };
-  nodes: Commit[];
+  nodes: {
+    committer: {
+      user: {
+        id: string;
+      };
+    };
+    oid: string;
+    additions: number;
+    deletions: number;
+    changedFiles: number;
+    committedDate: string;
+  }[];
 }
 
 export interface UserResponse {
