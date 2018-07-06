@@ -57,13 +57,15 @@ export class Cron {
   }
 
   async initBranches() {
-    for (const repo of this.repositories) {
-      console.log(`get branches for ${repo.owner}/${repo.name}`);
-      const branchNames = await this.getBranchNames(repo);
-      repo.branches = branchNames.map((name => ({
-        name,
-        fetched: 0,
-      })));
+    for (const repo of Object.values(this.repositories)) {
+      console.log(`get branches for ${repo.key}`);
+      const branches = await this.getBranches(repo);
+      for (const branchName in branches) {
+        if (repo.branches[branchName]) {
+          branches[branchName].commits = repo.branches[branchName].commits;
+        }
+      }
+      repo.branches = branches;
     }
   }
 
