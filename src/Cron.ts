@@ -46,20 +46,14 @@ export class Cron {
 
   async initRepositories() {
     const repositories = await this.getRepositories();
-    const repoDict: Dict<Repository> = {};
-    for (const repo of repositories) {
-      repoDict[repo.key] = repo;
-    }
-    for (const repo of this.repositories) {
-      if (repoDict[repo.key]) {
-        const dict = repoDict[repo.key];
-        if (dict.rootId === repo.rootId) {
-          dict.branches = repo.branches;
-          dict.commits = repo.commits;
-        }
+    // Use cached data if matching
+    for (const key in repositories) {
+      const repo = this.repositories[key];
+      if (repo && repositories[key].rootId === repo.rootId) {
+        repositories[key] = repo;
       }
     }
-    this.repositories = Object.values(repoDict);
+    this.repositories = repositories;
   }
 
   async initBranches() {
