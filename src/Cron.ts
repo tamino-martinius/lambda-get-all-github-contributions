@@ -21,7 +21,7 @@ const github = new GitHub({
 });
 
 export class Cron {
-  repositories: Repository[] = [];
+  repositories: Dict<Repository> = {};
   userId: string;
   userLogin: string;
 
