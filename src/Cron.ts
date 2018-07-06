@@ -145,7 +145,6 @@ export class Cron {
             branches: [],
             commits: {},
             rootId: node.defaultBranchRef.target.oid,
-            count: node.defaultBranchRef.target.history.totalCount,
           });
         }
       }
@@ -169,11 +168,6 @@ export class Cron {
               defaultBranchRef {
                 target {
                   oid
-                  ... on Commit {
-                    history {
-                      totalCount
-                    }
-                  }
                 }
               }
             `,
