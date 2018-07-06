@@ -85,7 +85,8 @@ export interface Repository {
 
 export interface Branch {
   name: string;
-  fetched: number;
+  count: number;
+  commits: Dict<Commit>;
 }
 
 export interface Commit {
