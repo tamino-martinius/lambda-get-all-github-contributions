@@ -62,8 +62,8 @@ export interface HistoryPageResponse {
 export interface HistoryPage {
   totalCount: number;
   pageInfo: {
-    hasNextPage: boolean;
-    endCursor: string;
+    hasPreviousPage: boolean;
+    startCursor: string;
   };
   nodes: Commit[];
 }
