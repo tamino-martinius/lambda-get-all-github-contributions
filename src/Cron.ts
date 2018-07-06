@@ -233,7 +233,7 @@ export class Cron {
     return commits;
   }
 
-  async getHistoryPage(repo: Repository, branch: string, cursor?: string): Promise<HistoryPage> {
+  async getHistoryPage(repo: Repository, branch: string, cursor: string): Promise<HistoryPage> {
     const response: HistoryPageResponse = await github.query(`
       query {
         repository(owner: "${ repo.owner }", name: "${ repo.name }") {
