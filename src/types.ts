@@ -90,6 +90,7 @@ export interface Branch {
 }
 
 export interface Commit {
+  committerId: string;
   oid: string;
   additions: number;
   deletions: number;
