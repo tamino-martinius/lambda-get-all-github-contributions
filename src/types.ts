@@ -77,7 +77,6 @@ export interface Repository {
   name: string;
   key: string;
   rootId: string;
-  count: number;
   branches: Branch[];
   commits: Dict<Commit>;
 }
