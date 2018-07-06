@@ -245,6 +245,11 @@ export class Cron {
                   cursor,
                   `author: { id: "${ this.userId }" }`,
                   `
+                    committer{
+                      user {
+                        id
+                      }
+                    }
                     oid
                     additions
                     deletions
