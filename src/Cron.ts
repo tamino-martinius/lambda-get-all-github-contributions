@@ -269,7 +269,8 @@ export class Cron {
                     changedFiles
                     committedDate
                   `,
-                ), false }
+                  false,
+                ) }
               }
             }
           }
