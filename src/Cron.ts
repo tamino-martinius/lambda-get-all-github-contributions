@@ -234,7 +234,7 @@ export class Cron {
       startCursor = historyPage.pageInfo.startCursor;
       for (const node of historyPage.nodes) {
         commits[node.oid] = {
-          committerId: node.committer.user.id,
+          committerId: node.committer.user && node.committer.user.id,
           oid: node.oid,
           additions: node.additions,
           deletions: node.deletions,
