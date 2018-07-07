@@ -67,7 +67,7 @@ export interface HistoryPage {
   };
   nodes: {
     committer: {
-      user: {
+      user?: {
         id: string;
       };
     };
@@ -101,7 +101,7 @@ export interface Branch {
 }
 
 export interface Commit {
-  committerId: string;
+  committerId?: string;
   oid: string;
   additions: number;
   deletions: number;
