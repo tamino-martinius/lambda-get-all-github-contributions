@@ -258,7 +258,7 @@ export class Cron {
                   cursor,
                   '',
                   `
-                    committer{
+                    committer {
                       user {
                         id
                       }
