@@ -5,6 +5,7 @@ import {
   BranchesPageResponse,
   Commit,
   CrawlType,
+  CronState,
   Dict,
   HistoryPage,
   HistoryPageResponse,
@@ -13,6 +14,8 @@ import {
   Repository,
   UserResponse,
 } from './types';
+import Storage from './Storage';
+
 const apiToken = process.env.GITHUB_TOKEN;
 
 if (!apiToken) throw 'please define "GITHUB_TOKEN" env variable';
