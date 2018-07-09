@@ -58,6 +58,13 @@ export class Cron {
     this.save();
   }
 
+  async save() {
+    await storage.writeItem(this.userId, {
+      repositories: this.repositories,
+      crawlType: this.crawlType,
+    });
+  }
+
   async initRepositories() {
     const repositories = await this.getRepositories();
     // Use cached data if matching
