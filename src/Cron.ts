@@ -139,11 +139,11 @@ export class Cron {
         const commits = await this.getCommits(repo, branch);
         console.log(`fetched ${ Object.keys(commits).length } new commits`);
 
-        for (const oid in commits) {
-          const commit = commits[oid];
-          branch.commits[oid] = commit;
+        for (const commit of commits) {
+          repo.commits[commit.oid] = commit;
+          branch.commits.push(commit.oid);
           if (commit.committerId === this.userId) {
-            repo.ownCommits[oid] = commit;
+            repo.ownCommits.push(commit.oid);
           }
         }
         if (Object.keys(commits).length > 0) {
@@ -217,7 +217,8 @@ export class Cron {
             name: node.name,
             key: `${node.owner.login}/${node.name}`,
             branches: {},
-            ownCommits: {},
+            commits: {},
+            ownCommits: [],
             rootId: node.defaultBranchRef.target.oid,
           };
           repositories[repo.key] = repo;
@@ -265,7 +266,7 @@ export class Cron {
         branches[node.name] = {
           name: node.name,
           count: node.target.history.totalCount,
-          commits: {},
+          commits: [],
         };
       }
     }
@@ -297,34 +298,32 @@ export class Cron {
     return response.repository.refs;
   }
 
-  async getCommits(repo: Repository, branch: Branch): Promise<Dict<Commit>> {
-    const commitCount = Object.keys(branch.commits).length;
+  async getCommits(repo: Repository, branch: Branch): Promise<Commit[]> {
+    let commitCount = Object.keys(branch.commits).length;
     let hasPreviousPage = commitCount < branch.count;
     let startCursor = `${ repo.rootId } ${ branch.count - commitCount }`;
-    let commits: Dict<Commit> = {};
+    let commits: Commit[] = [];
     if (this.position && this.position.commits && this.position.cursor) {
       commits = this.position.commits;
       startCursor = this.position.cursor;
       this.position = undefined;
     }
     while (hasPreviousPage) {
+      commitCount = commits.length;
       const historyPage: HistoryPage = await this.getHistoryPage(repo, branch.name, startCursor);
       hasPreviousPage = historyPage.pageInfo.hasPreviousPage;
       startCursor = historyPage.pageInfo.startCursor;
-      for (const node of historyPage.nodes) {
-        commits[node.oid] = {
-          committerId: node.committer.user && node.committer.user.id,
-          oid: node.oid,
-          additions: node.additions,
-          deletions: node.deletions,
-          changedFiles: node.changedFiles,
-          committedDate: node.committedDate,
-        };
-      }
-      const commitCount = Object.keys(commits).length;
-      console.log(`${ commitCount } / ${ historyPage.totalCount }`);
-      if (commitCount % 1000 === 0) {
-        // Backup current status every 1k commits
+      commits.push(...historyPage.nodes.map(node => ({
+        committerId: node.committer.user && node.committer.user.id,
+        oid: node.oid,
+        additions: node.additions,
+        deletions: node.deletions,
+        changedFiles: node.changedFiles,
+        committedDate: node.committedDate,
+      })));
+      console.log(`${ commits.length } / ${ historyPage.totalCount }`);
+      if (commits.length % 1000 < commitCount % 1000) {
+        // Backup current status every time commit count crosses 1k mark
         await this.save({
           commits,
           repoKey: repo.key,
