@@ -114,11 +114,13 @@ export enum CrawlType {
   Delta = 'delta',
 }
 
+export interface CrawlPosition {
+  repoKey: string;
+  branchName: string;
+}
+
 export interface CronState {
   crawlType: CrawlType;
   repositories: Dict<Repository>;
-  position?: {
-    repoKey: string;
-    branchName: string;
-  };
+  position?: CrawlPosition;
 }
