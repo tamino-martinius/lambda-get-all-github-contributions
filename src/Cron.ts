@@ -65,6 +65,14 @@ export class Cron {
     });
   }
 
+  async restore() {
+    const data: CronState | undefined = await storage.readItem(this.userId);
+    if (data) {
+      this.repositories = data.repositories;
+      this.crawlType = data.crawlType;
+    }
+  }
+
   async initRepositories() {
     const repositories = await this.getRepositories();
     // Use cached data if matching
@@ -81,6 +89,7 @@ export class Cron {
     for (const repo of Object.values(this.repositories)) {
       console.log(`get branches for ${repo.key}`);
       const branches = await this.getBranches(repo);
+      // console.log(branches);
       for (const branchName in branches) {
         if (repo.branches[branchName]) {
           branches[branchName].commits = repo.branches[branchName].commits;
