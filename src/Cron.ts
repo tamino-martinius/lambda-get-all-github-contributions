@@ -62,8 +62,9 @@ export class Cron {
     this.save();
   }
 
-  async save() {
+  async save(position?: CrawlPosition) {
     await this.storage.writeItem(this.userId, {
+      position,
       repositories: this.repositories,
       crawlType: this.crawlType,
     });
@@ -74,6 +75,7 @@ export class Cron {
     if (data) {
       this.repositories = data.repositories;
       this.crawlType = data.crawlType;
+      this.position = data.position;
     }
   }
 
