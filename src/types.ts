@@ -91,13 +91,14 @@ export interface Repository {
   key: string;
   rootId: string;
   branches: Dict<Branch>;
-  ownCommits: Dict<Commit>;
+  commits: Dict<Commit>;
+  ownCommits: string[];
 }
 
 export interface Branch {
   name: string;
   count: number;
-  commits: Dict<Commit>;
+  commits: string[];
 }
 
 export interface Commit {
@@ -117,7 +118,7 @@ export enum CrawlType {
 export interface CrawlPosition {
   repoKey: string;
   branchName: string;
-  commits?: Dict<Commit>;
+  commits?: Commit[];
   cursor?: string;
 }
 
