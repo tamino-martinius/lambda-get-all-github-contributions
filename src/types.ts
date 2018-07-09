@@ -117,4 +117,8 @@ export enum CrawlType {
 export interface CronState {
   crawlType: CrawlType;
   repositories: Dict<Repository>;
+  position?: {
+    repoKey: string;
+    branchName: string;
+  };
 }
