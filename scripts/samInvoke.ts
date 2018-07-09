@@ -29,7 +29,7 @@ const ensureDirectoryExistence = (filePath: string) => {
 
 export const action = async () => {
   console.log(await buildAction());
-  const finalStack = generateStack(FINAL_STACK_TYPE);
+  const finalStack = generateStack(FINAL_STACK_TYPE, true);
   const templatePath = resolve(DIST_PATH, 'template.json');
   const eventPath = resolve(DIST_PATH, 'event.json');
   ensureDirectoryExistence(templatePath);
