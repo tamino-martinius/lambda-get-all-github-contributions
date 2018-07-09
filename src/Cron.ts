@@ -114,11 +114,12 @@ export class Cron {
       console.log(`get commits for ${ repoKey }`);
       const repo = this.repositories[repoKey];
       for (const branchName in repo.branches) {
-        if (this.position && this.position.branchName !== branchName) {
+        if (this.position) {
+          if (this.position.branchName === branchName) {
+            this.position = undefined;
+          }
           console.log(`skipping commits for ${ repoKey }:${ branchName }`);
           continue; // Skip data until reaching last crawl position
-        } else {
-          this.position = undefined;
         }
         const branch = repo.branches[branchName];
         console.log(`get commits for ${ repoKey }:${ branchName }`);
