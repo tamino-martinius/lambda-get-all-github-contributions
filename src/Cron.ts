@@ -102,14 +102,15 @@ export class Cron {
   }
 
   async initCommits() {
-    console.log(Object.values(this.repositories));
-    for (const repo of Object.values(this.repositories)) {
-      console.log(`get commits for ${repo.key}`);
-      for (const branch of Object.values(repo.branches)) {
-        console.log(`get commits for ${ repo.key }:${ branch.name }`);
+    for (const repoKey in this.repositories) {
+      console.log(`get commits for ${ repoKey }`);
+      const repo = this.repositories[repoKey];
+      for (const branchName in repo.branches) {
+        const branch = repo.branches[branchName];
+        console.log(`get commits for ${ repoKey }:${ branchName }`);
 
         const commits = await this.getCommits(repo, branch);
-        console.log(Object.keys(commits).length);
+        console.log(`fetched ${ Object.keys(commits).length } new commits`);
 
         for (const oid in commits) {
           const commit = commits[oid];
