@@ -4,11 +4,9 @@ const bucketName = <string>process.env.BUCKET_NAME;
 
 if (!bucketName) throw 'please define "BUCKET_NAME" env variable';
 
-console.log('pre s3');
 const s3 = new S3({
   region: AWS_REGION,
 });
-console.log('post s3');
 
 export class DB {
   constructor() {
