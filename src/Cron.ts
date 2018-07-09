@@ -167,7 +167,7 @@ export class Cron {
     if (cursor) {
       const cursorParts = cursor.split(' ');
       if (!asc && cursorParts.length === 2) {
-        limit = Number.parseInt(cursorParts[1]);
+        limit = Math.min(100, Number.parseInt(cursorParts[1]));
       }
     }
     let pageQuery = `${ asc ? 'first' : 'last' }: ${ limit }`;
