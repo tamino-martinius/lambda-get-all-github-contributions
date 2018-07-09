@@ -17,6 +17,7 @@ import {
 import Storage from './Storage';
 
 const apiToken = process.env.GITHUB_TOKEN;
+const storage = new Storage();
 
 if (!apiToken) throw 'please define "GITHUB_TOKEN" env variable';
 
