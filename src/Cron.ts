@@ -110,6 +110,7 @@ export class Cron {
   }
 
   async initCommits() {
+    const hasPartialCommits = this.position && !this.position.commits && !this.position.commits;
     for (const repoKey in this.repositories) {
       if (this.position && this.position.repoKey !== repoKey) {
         console.log(`skipping commits for ${ repoKey }`);
@@ -120,10 +121,17 @@ export class Cron {
       for (const branchName in repo.branches) {
         if (this.position) {
           if (this.position.branchName === branchName) {
-            this.position = undefined;
+            // Last crawl position reached
+            if (!hasPartialCommits) {
+              this.position = undefined;
+              console.log(`skipping commits for ${repoKey}:${branchName}`);
+              continue;
+            }
+          } else {
+            // Skip data until reaching last crawl position
+            console.log(`skipping commits for ${repoKey}:${branchName}`);
+            continue;
           }
-          console.log(`skipping commits for ${ repoKey }:${ branchName }`);
-          continue; // Skip data until reaching last crawl position
         }
         const branch = repo.branches[branchName];
         console.log(`get commits for ${ repoKey }:${ branchName }`);
@@ -144,6 +152,7 @@ export class Cron {
             branchName,
           });
         }
+        this.position = undefined;
       }
     }
   }
