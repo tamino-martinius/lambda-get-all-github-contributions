@@ -170,7 +170,7 @@ export const generateStack = (type: TemplateType, sam: boolean = false) => {
         } : {},
         FunctionName: { Ref: 'LambdaFunctionName' },
         Handler: 'lambda.handler',
-        MemorySize: 128,
+        MemorySize: 512,
         Role: {
           'Fn::GetAtt': [
             'LambdaExecutionRole',
