@@ -163,8 +163,14 @@ export class Cron {
     slot: string,
     asc: boolean = true,
   ) : string {
-
-    let pageQuery = `${ asc ? 'first' : 'last' }: 100`;
+    let limit: number = 100;
+    if (cursor) {
+      const cursorParts = cursor.split(' ');
+      if (!asc && cursorParts.length === 2) {
+        limit = Number.parseInt(cursorParts[1]);
+      }
+    }
+    let pageQuery = `${ asc ? 'first' : 'last' }: ${ limit }`;
     if (cursor) {
       pageQuery += `, ${ asc ? 'after' : 'before' }: "${ cursor }"`;
     }
