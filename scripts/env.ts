@@ -124,6 +124,13 @@ export const generateStack = (type: TemplateType, sam: boolean = false) => {
                   ],
                   Resource: 'arn:aws:logs:*:*:*',
                 },
+                { // TODO: Restrict to Bucket
+                  Effect: 'Allow',
+                  Action: [
+                    's3:*',
+                  ],
+                  Resource: '*',
+                },
               ],
             },
           },
