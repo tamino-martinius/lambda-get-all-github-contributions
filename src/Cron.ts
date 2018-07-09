@@ -152,7 +152,6 @@ export class Cron {
             branchName,
           });
         }
-        this.position = undefined;
       }
     }
   }
@@ -296,7 +295,12 @@ export class Cron {
     const commitCount = Object.keys(branch.commits).length;
     let hasPreviousPage = commitCount < branch.count;
     let startCursor = `${ repo.rootId } ${ branch.count - commitCount }`;
-    const commits: Dict<Commit> = {};
+    let commits: Dict<Commit> = {};
+    if (this.position && this.position.commits && this.position.cursor) {
+      commits = this.position.commits;
+      startCursor = this.position.cursor;
+      this.position = undefined;
+    }
     while (hasPreviousPage) {
       const historyPage: HistoryPage = await this.getHistoryPage(repo, branch.name, startCursor);
       hasPreviousPage = historyPage.pageInfo.hasPreviousPage;
