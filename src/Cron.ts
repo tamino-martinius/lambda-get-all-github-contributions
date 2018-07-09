@@ -302,7 +302,17 @@ export class Cron {
           committedDate: node.committedDate,
         };
       }
-      console.log(`${ Object.keys(commits).length } / ${ historyPage.totalCount }`);
+      const commitCount = Object.keys(commits).length;
+      console.log(`${ commitCount } / ${ historyPage.totalCount }`);
+      if (commitCount % 1000 === 0) {
+        // Backup current status every 1k commits
+        await this.save({
+          commits,
+          repoKey: repo.key,
+          branchName: branch.name,
+          cursor: startCursor,
+        });
+      }
     }
     return commits;
   }
