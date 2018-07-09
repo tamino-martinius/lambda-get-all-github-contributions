@@ -108,3 +108,8 @@ export interface Commit {
   changedFiles: number;
   committedDate: string;
 }
+
+export enum CrawlType {
+  Init = 'init',
+  Delta = 'delta',
+}
