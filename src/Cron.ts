@@ -49,6 +49,9 @@ export class Cron {
       await this.initRepositories();
       await this.initBranches();
     }
+    if (this.crawlType === undefined) {
+      this.crawlType = CrawlType.Init;
+    }
     await this.initCommits();
   }
 
