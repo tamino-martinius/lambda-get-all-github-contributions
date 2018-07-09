@@ -302,6 +302,7 @@ export class Cron {
           committedDate: node.committedDate,
         };
       }
+      console.log(`${ Object.keys(commits).length } / ${ historyPage.totalCount }`);
     }
     return commits;
   }
