@@ -110,7 +110,7 @@ export class Cron {
   }
 
   async initCommits() {
-    const hasPartialCommits = this.position && !this.position.commits && !this.position.commits;
+    const hasPartialCommits = !!this.position && !!this.position.commits && !!this.position.cursor;
     for (const repoKey in this.repositories) {
       if (this.position && this.position.repoKey !== repoKey) {
         console.log(`skipping commits for ${ repoKey }`);
