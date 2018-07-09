@@ -26,10 +26,10 @@ const github = new GitHub({
 });
 
 export class Cron {
-  repositories: Dict<Repository> = {};
   userId: string;
   userLogin: string;
   crawlType?: CrawlType;
+  repositories: Dict<Repository> = {};
 
   constructor(userId: string, userLogin: string) {
     this.userId = userId;
