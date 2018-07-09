@@ -107,9 +107,19 @@ export class Cron {
 
   async initCommits() {
     for (const repoKey in this.repositories) {
+      if (this.position && this.position.repoKey !== repoKey) {
+        console.log(`skipping commits for ${ repoKey }`);
+        continue; // Skip data until reaching last crawl position
+      }
       console.log(`get commits for ${ repoKey }`);
       const repo = this.repositories[repoKey];
       for (const branchName in repo.branches) {
+        if (this.position && this.position.branchName !== branchName) {
+          console.log(`skipping commits for ${ repoKey }:${ branchName }`);
+          continue; // Skip data until reaching last crawl position
+        } else {
+          this.position = undefined;
+        }
         const branch = repo.branches[branchName];
         console.log(`get commits for ${ repoKey }:${ branchName }`);
 
