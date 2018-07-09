@@ -4,6 +4,7 @@ import {
   BranchesPage,
   BranchesPageResponse,
   Commit,
+  CrawlPosition,
   CrawlType,
   CronState,
   Dict,
@@ -29,6 +30,7 @@ export class Cron {
   userLogin: string;
   crawlType?: CrawlType;
   repositories: Dict<Repository> = {};
+  position?: CrawlPosition;
   storage: Storage;
 
   constructor(userId: string, userLogin: string, storage: Storage) {
