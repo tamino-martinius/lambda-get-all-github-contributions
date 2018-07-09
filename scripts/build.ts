@@ -58,11 +58,6 @@ export const config = (isProduction: boolean = false) => {
     result.devtool = '#source-map';
     // http://vue-loader.vuejs.org/en/workflow/production.html
     result.plugins = (module.exports.plugins || []).concat([
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: '"production"',
-        },
-      }),
       new uglifyJsPlugin({
         sourceMap: true,
         uglifyOptions: {
