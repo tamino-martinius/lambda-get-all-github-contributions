@@ -177,7 +177,7 @@ export const generateStack = (type: TemplateType, sam: boolean = false) => {
           ],
         },
         Runtime: 'nodejs8.10',
-        Timeout: 60,
+        Timeout: 300,
       },
     };
     template.Outputs.LambdaFunctionConsoleUrl = {
