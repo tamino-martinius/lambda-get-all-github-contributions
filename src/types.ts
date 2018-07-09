@@ -113,3 +113,8 @@ export enum CrawlType {
   Init = 'init',
   Delta = 'delta',
 }
+
+export interface CronState {
+  crawlType: CrawlType;
+  repositories: Dict<Repository>;
+}
