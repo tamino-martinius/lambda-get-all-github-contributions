@@ -78,6 +78,7 @@ export class DB {
       },
     }).promise();
     if (record.Item && record.Item.data && record.Item.data.S) {
+      console.log(`read ${record.Item.data.S} chars`);
       return JSON.parse(record.Item.data.S);
     }
     return undefined;
@@ -96,6 +97,7 @@ export class DB {
 
   async writeItem(id: string, data: any) {
     const dataStr = JSON.stringify(data);
+    console.log(`write ${dataStr} chars`);
     return dynamoDB.putItem({
       TableName: TABLE_NAME,
       Item: {
