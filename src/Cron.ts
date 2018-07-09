@@ -4,6 +4,7 @@ import {
   BranchesPage,
   BranchesPageResponse,
   Commit,
+  CrawlType,
   Dict,
   HistoryPage,
   HistoryPageResponse,
@@ -24,6 +25,7 @@ export class Cron {
   repositories: Dict<Repository> = {};
   userId: string;
   userLogin: string;
+  crawlType?: CrawlType;
 
   constructor(userId: string, userLogin: string) {
     this.userId = userId;
