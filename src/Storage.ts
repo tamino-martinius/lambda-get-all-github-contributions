@@ -95,6 +95,7 @@ export class DB {
   }
 
   async writeItem(id: string, data: any) {
+    const dataStr = JSON.stringify(data);
     return dynamoDB.putItem({
       TableName: TABLE_NAME,
       Item: {
@@ -102,7 +103,7 @@ export class DB {
           S: id,
         },
         data: {
-          S: JSON.stringify(data),
+          S: dataStr,
         },
       },
     }).promise();

@@ -1,5 +1,5 @@
 import Cron from './Cron';
-import DB from './DB';
+import Storage from './Storage';
 
 export default async (event: any, context: AWSLambda.Context) => {
   const cron = await Cron.create('tamino-martinius');
