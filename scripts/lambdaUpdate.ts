@@ -8,7 +8,7 @@ export const action = async () => {
   const zip = await packageAction();
   return await lambda.updateFunctionCode({
     FunctionName: FUNCTION_NAME,
-    ZipFile: zip,
+    ZipFile: new Buffer(zip, 'base64'),
     Publish: true,
   }).promise();
 };
