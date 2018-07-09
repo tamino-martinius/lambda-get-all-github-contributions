@@ -11,6 +11,7 @@ import tsDedent from 'ts-dedent';
 const env = process.env;
 export const AWS_REGION = env.npm_package_config_awsRegion || '';
 export const AWS_PROFILE = env.npm_package_config_awsProfile || '';
+export const LOCAL_BUCKET_NAME = env.npm_package_config_localBucketName || '';
 export const BUCKET_NAME = env.npm_package_config_bucketName || '';
 export const STACK_NAME = env.npm_package_config_stackName || '';
 export const FUNCTION_NAME = env.npm_package_config_functionName || '';
@@ -45,7 +46,7 @@ export const lambda = new Lambda(regionConfig);
 export const cloudFormation = new CloudFormation(regionConfig);
 export const sts = new STS(regionConfig);
 
-export const generateStack = (type: TemplateType) => {
+export const generateStack = (type: TemplateType, sam: boolean = false) => {
   const parameters: CloudFormation.Parameter[] = [{
     ParameterKey: 'LambdaFunctionS3BucketName',
     ParameterValue: BUCKET_NAME,
@@ -139,6 +140,7 @@ export const generateStack = (type: TemplateType) => {
         Environment: {
           Variables: {
             GITHUB_TOKEN,
+            BUCKET_NAME: sam ? LOCAL_BUCKET_NAME : BUCKET_NAME,
           },
         },
         Events: API_GATEWAY ? {
