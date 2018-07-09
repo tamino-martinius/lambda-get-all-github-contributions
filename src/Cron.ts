@@ -59,8 +59,10 @@ export class Cron {
       this.crawlType = CrawlType.Init;
     }
     await this.initCommits();
-    this.crawlType = CrawlType.Delta;
-    this.save();
+    if (dirtyStart || this.position) {
+      this.crawlType = CrawlType.Delta;
+      this.save();
+    }
   }
 
   async save(position?: CrawlPosition) {
