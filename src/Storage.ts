@@ -1,16 +1,14 @@
-import { DynamoDB } from 'aws-sdk';
+import { S3 } from 'aws-sdk';
 const AWS_REGION = process.env.AWS_REGION || 'eu-central-1';
-const ENDPOINT = process.env.AWS_SAM_LOCAL ? 'http://docker.for.mac.localhost:8000' : undefined;
-const TABLE_NAME = 'lambda-github-contributions';
-const dynamoDB = new DynamoDB({
-  region: AWS_REGION,
-  endpoint: ENDPOINT,
-});
+const bucketName = <string>process.env.BUCKET_NAME;
 
-const dynamoDBClient = new DynamoDB.DocumentClient({
+if (!bucketName) throw 'please define "BUCKET_NAME" env variable';
+
+console.log('pre s3');
+const s3 = new S3({
   region: AWS_REGION,
-  endpoint: ENDPOINT,
 });
+console.log('post s3');
 
 export class DB {
   constructor() {
@@ -24,91 +22,70 @@ export class DB {
   }
 
   async init() {
-    // make sure table exists
-    // console.log(await this.deleteTable());
-    const tableList = await this.listTables();
-    if (!tableList.TableNames || !tableList.TableNames.includes(TABLE_NAME)) {
-      console.log(await this.createTable());
+    if (! await this.bucketExists()) {
+      await this.createBucket();
     }
-
-    console.log(await this.writeItem('test', { foo: 'bar' }));
-    console.log(await this.deleteItem('test'));
-    console.log(await this.readItem('test'));
   }
 
-  async listTables() {
-    return await dynamoDB.listTables({}).promise();
+  fileName(id: string) {
+    return `${id}.json`;
   }
 
-  async createTable() {
-    return await dynamoDB.createTable({
-      AttributeDefinitions: [
-        {
-          AttributeName: 'id',
-          AttributeType: 'S',
-        },
-      ],
-      KeySchema: [
-        {
-          AttributeName: 'id',
-          KeyType: 'HASH',
-        },
-      ],
-      TableName: TABLE_NAME,
-      ProvisionedThroughput: {
-        ReadCapacityUnits: 5,
-        WriteCapacityUnits: 5,
-      },
+  async createBucket() {
+    return await s3.createBucket({
+      Bucket: bucketName,
     }).promise();
   }
 
-  async deleteTable() {
-    return await dynamoDB.deleteTable({
-      TableName: TABLE_NAME,
-    }).promise();
+  async bucketExists() {
+    try {
+      await s3.listObjects({
+        Bucket: bucketName,
+      }).promise();
+    } catch (error) {
+      console.log('err', error);
+
+      return false;
+    }
+    return true;
   }
 
   async readItem(id: string): Promise<any> {
-    const record = await dynamoDB.getItem({
-      TableName: TABLE_NAME,
-      Key: {
-        id: {
-          S: id,
-        },
-      },
-    }).promise();
-    if (record.Item && record.Item.data && record.Item.data.S) {
-      console.log(`read ${record.Item.data.S} chars`);
-      return JSON.parse(record.Item.data.S);
+    try {
+      const record = await s3.getObject({
+        Bucket: bucketName,
+        Key: this.fileName(id),
+      }).promise();
+      if (record && record.Body) {
+        const dataStr = record.Body.toString();
+        console.log(`read ${dataStr.length} chars`);
+        return JSON.parse(dataStr);
+      }
+    } catch (error) {
     }
     return undefined;
   }
 
   async deleteItem(id: string) {
-    return await dynamoDB.getItem({
-      TableName: TABLE_NAME,
-      Key: {
-        id: {
-          S: id,
-        },
-      },
+    return await s3.deleteObject({
+      Bucket: bucketName,
+      Key: this.fileName(id),
     }).promise();
   }
 
   async writeItem(id: string, data: any) {
     const dataStr = JSON.stringify(data);
-    console.log(`write ${dataStr} chars`);
-    return dynamoDB.putItem({
-      TableName: TABLE_NAME,
-      Item: {
-        id: {
-          S: id,
-        },
-        data: {
-          S: dataStr,
-        },
-      },
-    }).promise();
+    console.log(`write ${dataStr.length} chars to ${this.fileName(id)}`);
+    try {
+      return s3.putObject({
+        Bucket: bucketName,
+        Key: this.fileName(id),
+        Body: dataStr,
+      }).promise();
+    } catch (error) {
+      console.log('error', error);
+      throw error;
+    }
   }
 }
 
