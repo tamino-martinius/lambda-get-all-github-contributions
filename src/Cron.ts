@@ -37,7 +37,7 @@ export class Cron {
     this.userId = userId;
     this.userLogin = userLogin;
     this.storage = storage;
-    console.log(apiToken);
+    console.log('GitHub API-Token', apiToken);
   }
 
   static async create(login: string): Promise<Cron> {
@@ -50,6 +50,7 @@ export class Cron {
   }
 
   async init() {
+    console.log(`Start with ${ this.crawlType || 'first' } crawling`);
     if (this.crawlType !== CrawlType.Init) {
       await this.initRepositories();
       await this.initBranches();
