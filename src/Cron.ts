@@ -137,10 +137,12 @@ export class Cron {
             repo.ownCommits[oid] = commit;
           }
         }
-        await this.save({
-          repoKey,
-          branchName,
-        });
+        if (Object.keys(commits).length > 0) {
+          await this.save({
+            repoKey,
+            branchName,
+          });
+        }
       }
     }
   }
