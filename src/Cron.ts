@@ -40,6 +40,7 @@ export class Cron {
   static async create(login: string): Promise<Cron> {
     const id = await this.getIdFromUser(login);
     const cron = new Cron(id, login);
+    await cron.restore();
     await cron.init();
     return cron;
   }
