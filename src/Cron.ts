@@ -17,7 +17,6 @@ import {
 import Storage from './Storage';
 
 const apiToken = process.env.GITHUB_TOKEN;
-const storage = new Storage();
 
 if (!apiToken) throw 'please define "GITHUB_TOKEN" env variable';
 
@@ -30,16 +29,19 @@ export class Cron {
   userLogin: string;
   crawlType?: CrawlType;
   repositories: Dict<Repository> = {};
+  storage: Storage;
 
-  constructor(userId: string, userLogin: string) {
+  constructor(userId: string, userLogin: string, storage: Storage) {
     this.userId = userId;
     this.userLogin = userLogin;
+    this.storage = storage;
     console.log(apiToken);
   }
 
   static async create(login: string): Promise<Cron> {
+    const storage = await Storage.create();
     const id = await this.getIdFromUser(login);
-    const cron = new Cron(id, login);
+    const cron = new Cron(id, login, storage);
     await cron.restore();
     await cron.init();
     return cron;
@@ -59,14 +61,14 @@ export class Cron {
   }
 
   async save() {
-    await storage.writeItem(this.userId, {
+    await this.storage.writeItem(this.userId, {
       repositories: this.repositories,
       crawlType: this.crawlType,
     });
   }
 
   async restore() {
-    const data: CronState | undefined = await storage.readItem(this.userId);
+    const data: CronState | undefined = await this.storage.readItem(this.userId);
     if (data) {
       this.repositories = data.repositories;
       this.crawlType = data.crawlType;
