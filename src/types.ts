@@ -117,10 +117,8 @@ export enum CrawlType {
 export interface CrawlPosition {
   repoKey: string;
   branchName: string;
-  cursor?: {
-    commits: Dict<Commit>;
-    cursor: string;
-  };
+  commits?: Dict<Commit>;
+  cursor?: string;
 }
 
 export interface CronState {
