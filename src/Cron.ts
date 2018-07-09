@@ -98,6 +98,7 @@ export class Cron {
             repo.ownCommits[oid] = commit;
           }
         }
+        this.save();
       }
     }
   }
