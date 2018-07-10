@@ -124,7 +124,7 @@ export interface CrawlPosition {
   cursor?: string;
 }
 
-export interface CronState {
+export interface CrawlState {
   crawlType: CrawlType;
   repositories: Dict<Repository>;
   position?: CrawlPosition;

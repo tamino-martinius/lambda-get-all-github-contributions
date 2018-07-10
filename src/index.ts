@@ -1,8 +1,8 @@
-import Cron from './Cron';
+import Crawler from './Crawler';
 import Storage from './Storage';
 
 export default async (event: any, context: AWSLambda.Context) => {
-  const cron = await Cron.create('tamino-martinius');
+  const cron = await Crawler.create('tamino-martinius');
   console.log(JSON.stringify(cron.repositories));
   // const storage = await Storage.create();
   // console.log(storage);
