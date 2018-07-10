@@ -302,7 +302,7 @@ export class Cron {
   async getCommits(repo: Repository, branch: Branch): Promise<Commit[]> {
     let commitCount = Object.keys(branch.commits).length;
     let hasPreviousPage = commitCount < branch.count;
-    let startCursor = `${ repo.rootId } ${ branch.count - commitCount }`;
+    let startCursor = `${ branch.rootId } ${ branch.count - commitCount }`;
     let commits: Commit[] = [];
     if (this.position && this.position.commits && this.position.cursor) {
       commits = this.position.commits;
