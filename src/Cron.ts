@@ -286,7 +286,7 @@ export class Cron {
               target {
                 ... on Commit {
                   oid
-                  history {
+                  history(author: { id: "${ this.userId }" }) {
                     totalCount
                   }
                 }
@@ -346,7 +346,7 @@ export class Cron {
                 ${ Cron.paginated(
                   'history',
                   cursor,
-                  '',
+                  `author: { id: "${ this.userId }" }`,
                   `
                     committer {
                       user {
