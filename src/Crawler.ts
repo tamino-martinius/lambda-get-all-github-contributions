@@ -6,7 +6,7 @@ import {
   Commit,
   CrawlPosition,
   CrawlType,
-  CronState,
+  CrawlState,
   Dict,
   HistoryPage,
   HistoryPageResponse,
@@ -25,7 +25,7 @@ const github = new GitHub({
   token: apiToken,
 });
 
-export class Cron {
+export class Crawler {
   userId: string;
   userLogin: string;
   crawlType?: CrawlType;
@@ -42,13 +42,13 @@ export class Cron {
     console.log('GitHub API-Token', apiToken);
   }
 
-  static async create(login: string): Promise<Cron> {
+  static async create(login: string): Promise<Crawler> {
     const storage = await Storage.create();
     const id = await this.getIdFromUser(login);
-    const cron = new Cron(id, login, storage);
-    await cron.restore();
-    await cron.init();
-    return cron;
+    const crawler = new Crawler(id, login, storage);
+    await crawler.restore();
+    await crawler.init();
+    return crawler;
   }
 
   async init() {
@@ -85,7 +85,7 @@ export class Cron {
   async restore() {
     const dataStr = await this.storage.readItem(this.userId);
     if (dataStr) {
-      const data: CronState = JSON.parse(dataStr);
+      const data: CrawlState = JSON.parse(dataStr);
       this.lastData = dataStr;
       this.repositories = data.repositories;
       this.crawlType = data.crawlType;
@@ -245,7 +245,7 @@ export class Cron {
     const response: RepositoriesPageResponse = await github.query(`
       query {
         user(login: "${ this.userLogin}") {
-          ${ Cron.paginated(
+          ${ Crawler.paginated(
             'repositories',
             cursor,
             'affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]',
@@ -290,7 +290,7 @@ export class Cron {
     const response: BranchesPageResponse = await github.query(`
       query {
         repository(owner: "${ repo.owner }", name: "${ repo.name }") {
-          ${ Cron.paginated(
+          ${ Crawler.paginated(
             'refs',
             cursor,
             `refPrefix: "refs/heads/"`,
@@ -356,7 +356,7 @@ export class Cron {
           ref(qualifiedName: "${ branch }") {
             target {
               ... on Commit {
-                ${ Cron.paginated(
+                ${ Crawler.paginated(
                   'history',
                   cursor,
                   `author: { id: "${ this.userId }" }`,
@@ -395,4 +395,4 @@ export class Cron {
   }
 }
 
-export default Cron;
+export default Crawler;
