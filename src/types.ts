@@ -51,7 +51,7 @@ export interface BranchesPage {
 
 export interface HistoryPageResponse {
   repository: {
-    ref: {
+    ref?: {
       target: {
         history: HistoryPage;
       };
