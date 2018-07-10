@@ -180,6 +180,21 @@ export const generateStack = (type: TemplateType, sam: boolean = false) => {
         Timeout: 300,
       },
     };
+    template.Resources.EventsRule = {
+      Type: 'AWS::Events::Rule',
+      Properties: {
+        Description: 'Trigger the lambda function to fetch new commits every 6 minutes',
+        Name: `Trigger${FUNCTION_NAME}`,
+        ScheduleExpression: 'rate(6 minutes)',
+        State: 'ENABLED',
+        Targets: [{
+          Arn: {
+            'Fn::GetAtt': ['LambdaFunction', 'Arn'],
+          },
+          Id: FUNCTION_NAME,
+        }],
+      },
+    };
     template.Outputs.LambdaFunctionConsoleUrl = {
       Description: `
         Console URL for the Lambda Function.
