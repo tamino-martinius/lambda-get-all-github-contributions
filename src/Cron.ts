@@ -68,11 +68,16 @@ export class Cron {
   }
 
   async save(position?: CrawlPosition) {
-    await this.storage.writeItem(this.userId, {
+    const dataStr = JSON.stringify({
       position,
       repositories: this.repositories,
       crawlType: this.crawlType,
     });
+    const hasChanged = this.lastData !== dataStr;
+    if (hasChanged) {
+      await this.storage.writeItem(this.userId, dataStr);
+    }
+    return hasChanged;
   }
 
   async restore() {
