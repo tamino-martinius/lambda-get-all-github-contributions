@@ -129,3 +129,37 @@ export interface CrawlState {
   repositories: Dict<Repository>;
   position?: CrawlPosition;
 }
+
+export interface Totals {
+  additions: number;
+  deletions: number;
+  changedFiles: number;
+  commitCount: number;
+}
+
+export interface WeekDayStats extends Totals {
+  hours: Dict<HourStats>;
+}
+
+export interface HourStats extends Totals {
+  quaters: Dict<Totals>;
+}
+
+export interface TimeStats {
+  daily: Dict<Totals>;
+  weekly: Dict<Totals>;
+  monthly: Dict<Totals>;
+  yearly: Dict<Totals>;
+  weekDays: Dict<WeekDayStats>;
+}
+
+export interface GraphStats extends TimeStats {
+  repositories: Dict<TimeStats>;
+}
+
+export interface StatsPosition {
+  stats: GraphStats;
+  repositoryMapping: Dict<string>;
+  nextPrivateId: number;
+  processedCommits: Dict<string>;
+}
