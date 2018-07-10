@@ -183,9 +183,9 @@ export const generateStack = (type: TemplateType, sam: boolean = false) => {
     template.Resources.EventsRule = {
       Type: 'AWS::Events::Rule',
       Properties: {
-        Description: 'Trigger the lambda function to fetch new commits every 6 minutes',
+        Description: 'Trigger the lambda function to fetch new commits every 60 minutes',
         Name: `Trigger${FUNCTION_NAME}`,
-        ScheduleExpression: 'rate(6 minutes)',
+        ScheduleExpression: 'rate(60 minutes)',
         State: 'ENABLED',
         Targets: [{
           Arn: {
