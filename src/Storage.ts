@@ -48,7 +48,7 @@ export class DB {
     return true;
   }
 
-  async readItem(id: string): Promise<any> {
+  async readItem(id: string): Promise<string | undefined> {
     try {
       const record = await s3.getObject({
         Bucket: bucketName,
@@ -57,7 +57,7 @@ export class DB {
       if (record && record.Body) {
         const dataStr = record.Body.toString();
         console.log(`read ${dataStr.length} chars`);
-        return JSON.parse(dataStr);
+        return dataStr;
       }
     } catch (error) {
     }
@@ -71,14 +71,13 @@ export class DB {
     }).promise();
   }
 
-  async writeItem(id: string, data: any) {
-    const dataStr = JSON.stringify(data);
-    console.log(`write ${dataStr.length} chars to ${this.fileName(id)}`);
+  async writeItem(id: string, data: string) {
+    console.log(`write ${data.length} chars to ${this.fileName(id)}`);
     try {
       return s3.putObject({
         Bucket: bucketName,
         Key: this.fileName(id),
-        Body: dataStr,
+        Body: data,
       }).promise();
     } catch (error) {
       console.log('error', error);
