@@ -101,10 +101,7 @@ export class Cron {
       if (repo) {
         repositories[key].commits = repo.commits;
         repositories[key].ownCommits = repo.ownCommits;
-        for (const branchName in repositories[key].branches) {
-          const branch = repo.branches[branchName];
-          repositories[key].branches[branchName].commits = branch.commits;
-        }
+        repositories[key].branches = repo.branches;
       }
     }
     this.repositories = repositories;
