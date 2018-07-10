@@ -145,6 +145,8 @@ export class Cron {
           if (commit.committerId === this.userId) {
             repo.ownCommits.push(commit.oid);
           }
+          branch.commits = [...new Set(branch.commits)];
+          repo.ownCommits = [...new Set(repo.ownCommits)];
         }
         if (Object.keys(commits).length > 0) {
           await this.save({
