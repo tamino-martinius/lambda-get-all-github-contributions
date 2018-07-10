@@ -85,6 +85,8 @@ export interface Repository {
   owner: string;
   name: string;
   key: string;
+  isPrivate: boolean;
+  defaultBranchName?: string;
   branches: Dict<Branch>;
   commits: Dict<Commit>;
   ownCommits: string[];
