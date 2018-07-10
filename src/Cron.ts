@@ -370,16 +370,15 @@ export class Cron {
     const response: HistoryPageResponse = await github.query(query);
     if (response.repository.ref) {
       return response.repository.ref.target.history;
-    } else {
-      return {
-        totalCount: 0,
-        pageInfo: {
-          hasPreviousPage: false,
-          startCursor: '',
-        },
-        nodes: [],
-      };
     }
+    return {
+      totalCount: 0,
+      pageInfo: {
+        hasPreviousPage: false,
+        startCursor: '',
+      },
+      nodes: [],
+    };
   }
 }
 
