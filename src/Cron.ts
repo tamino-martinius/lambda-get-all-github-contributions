@@ -75,8 +75,9 @@ export class Cron {
   }
 
   async restore() {
-    const data: CronState | undefined = await this.storage.readItem(this.userId);
-    if (data) {
+    const dataStr = await this.storage.readItem(this.userId);
+    if (dataStr) {
+      const data: CronState = JSON.parse(dataStr);
       this.repositories = data.repositories;
       this.crawlType = data.crawlType;
       this.position = data.position;
