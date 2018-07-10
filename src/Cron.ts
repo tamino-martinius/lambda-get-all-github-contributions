@@ -232,10 +232,12 @@ export class Cron {
         const repo: Repository = {
           owner: node.owner.login,
           name: node.name,
+          isPrivate: node.isPrivate,
           key: `${node.owner.login}/${node.name}`,
           branches: {},
           commits: {},
           ownCommits: [],
+          defaultBranchName: (node.defaultBranchRef ? node.defaultBranchRef.name : undefined),
         };
         repositories[repo.key] = repo;
       }
