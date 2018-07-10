@@ -9,10 +9,14 @@ export interface RepositoriesPage {
     endCursor: string;
   };
   nodes: {
+    name: string;
+    isPrivate: boolean;
     owner: {
       login: string;
     };
-    name: string;
+    defaultBranchRef?: {
+      name: string;
+    }
   }[];
 }
 
