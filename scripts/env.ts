@@ -147,7 +147,6 @@ export const generateStack = (type: TemplateType, sam: boolean = false) => {
         Environment: {
           Variables: {
             GITHUB_TOKEN,
-            AWS_REGION,
             BUCKET_NAME: sam ? LOCAL_BUCKET_NAME : BUCKET_NAME,
           },
         },
