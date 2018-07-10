@@ -12,11 +12,6 @@ export interface RepositoriesPage {
     owner: {
       login: string;
     };
-    defaultBranchRef :{
-      target: {
-        oid: string;
-      };
-    };
     name: string;
   }[];
 }
@@ -42,6 +37,7 @@ export interface BranchesPage {
   nodes: {
     name: string;
     target: {
+      oid: string;
       history: {
         totalCount: number;
       };
@@ -89,7 +85,6 @@ export interface Repository {
   owner: string;
   name: string;
   key: string;
-  rootId: string;
   branches: Dict<Branch>;
   commits: Dict<Commit>;
   ownCommits: string[];
@@ -98,6 +93,7 @@ export interface Repository {
 export interface Branch {
   name: string;
   count: number;
+  rootId: string;
   commits: string[];
 }
 
