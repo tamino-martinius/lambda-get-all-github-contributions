@@ -88,8 +88,13 @@ export class Cron {
     // Use cached data if matching
     for (const key in repositories) {
       const repo = this.repositories[key];
-      if (repo && repositories[key].rootId === repo.rootId) {
-        repositories[key] = repo;
+      if (repo) {
+        repositories[key].commits = repo.commits;
+        repositories[key].ownCommits = repo.ownCommits;
+        for (const branchName in repositories[key].branches) {
+          const branch = repo.branches[branchName];
+          repositories[key].branches[branchName].commits = branch.commits;
+        }
       }
     }
     this.repositories = repositories;
