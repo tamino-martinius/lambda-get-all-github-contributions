@@ -77,6 +77,8 @@ export class Cron {
     if (hasChanged) {
       this.lastData = dataStr;
       await this.storage.writeItem(this.userId, dataStr);
+    } else {
+      console.log('skipped writing - no changes detected');
     }
     return hasChanged;
   }
