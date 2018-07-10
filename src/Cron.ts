@@ -253,8 +253,12 @@ export class Cron {
             'affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]',
             `
               name
+              isPrivate
               owner {
                 login
+              }
+              defaultBranchRef {
+                name
               }
             `,
           )}
