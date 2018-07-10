@@ -51,7 +51,6 @@ export class Cron {
   }
 
   async init() {
-    const dirtyStart = this.crawlType !== CrawlType.Delta && !!this.position;
     console.log(`Start with ${ this.crawlType || 'first' } crawling`);
     if (this.crawlType !== CrawlType.Init) {
       await this.initRepositories();
@@ -61,10 +60,8 @@ export class Cron {
       this.crawlType = CrawlType.Init;
     }
     await this.initCommits();
-    if (dirtyStart || this.position) {
-      this.crawlType = CrawlType.Delta;
-      this.save();
-    }
+    this.crawlType = CrawlType.Delta;
+    this.save();
   }
 
   async save(position?: CrawlPosition) {
