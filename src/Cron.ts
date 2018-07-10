@@ -213,18 +213,15 @@ export class Cron {
       hasNextPage = repositoryPage.pageInfo.hasNextPage;
       endCursor = repositoryPage.pageInfo.endCursor;
       for (const node of repositoryPage.nodes) {
-        if (node.defaultBranchRef) {
-          const repo: Repository = {
-            owner: node.owner.login,
-            name: node.name,
-            key: `${node.owner.login}/${node.name}`,
-            branches: {},
-            commits: {},
-            ownCommits: [],
-            rootId: node.defaultBranchRef.target.oid,
-          };
-          repositories[repo.key] = repo;
-        }
+        const repo: Repository = {
+          owner: node.owner.login,
+          name: node.name,
+          key: `${node.owner.login}/${node.name}`,
+          branches: {},
+          commits: {},
+          ownCommits: [],
+        };
+        repositories[repo.key] = repo;
       }
     }
     return repositories;
@@ -242,11 +239,6 @@ export class Cron {
               name
               owner {
                 login
-              }
-              defaultBranchRef {
-                target {
-                  oid
-                }
               }
             `,
           )}
