@@ -195,6 +195,17 @@ export const generateStack = (type: TemplateType, sam: boolean = false) => {
         }],
       },
     };
+    template.Resources.EventsRulePermission = {
+      Type: 'AWS::Lambda::Permission',
+      Properties: {
+        FunctionName: { Ref: 'LambdaFunction' },
+        Action: 'lambda:InvokeFunction',
+        Principal: 'events.amazonaws.com',
+        SourceArn: {
+          'Fn::GetAtt': ['EventsRule', 'Arn'],
+        },
+      },
+    };
     template.Outputs.LambdaFunctionConsoleUrl = {
       Description: `
         Console URL for the Lambda Function.
