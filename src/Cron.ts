@@ -33,6 +33,7 @@ export class Cron {
   position?: CrawlPosition;
   storage: Storage;
   lastData?: string;
+  hasChanged: boolean = false;
 
   constructor(userId: string, userLogin: string, storage: Storage) {
     this.userId = userId;
@@ -77,6 +78,7 @@ export class Cron {
     } else {
       console.log('skipped writing - no changes detected');
     }
+    this.hasChanged = this.hasChanged || hasChanged;
     return hasChanged;
   }
 
