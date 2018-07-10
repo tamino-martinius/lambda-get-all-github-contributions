@@ -75,6 +75,7 @@ export class Cron {
     });
     const hasChanged = this.lastData !== dataStr;
     if (hasChanged) {
+      this.lastData = dataStr;
       await this.storage.writeItem(this.userId, dataStr);
     }
     return hasChanged;
