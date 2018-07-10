@@ -32,6 +32,7 @@ export class Cron {
   repositories: Dict<Repository> = {};
   position?: CrawlPosition;
   storage: Storage;
+  lastData?: string;
 
   constructor(userId: string, userLogin: string, storage: Storage) {
     this.userId = userId;
@@ -78,6 +79,7 @@ export class Cron {
     const dataStr = await this.storage.readItem(this.userId);
     if (dataStr) {
       const data: CronState = JSON.parse(dataStr);
+      this.lastData = dataStr;
       this.repositories = data.repositories;
       this.crawlType = data.crawlType;
       this.position = data.position;
