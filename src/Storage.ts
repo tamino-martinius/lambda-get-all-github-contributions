@@ -71,13 +71,13 @@ export class DB {
     }).promise();
   }
 
-  async writeItem(id: string, data: string) {
-    console.log(`write ${data.length} chars to ${this.fileName(id)}`);
+  async writeItem(id: string, jsonStr: string) {
+    console.log(`write ${jsonStr.length} chars to ${this.fileName(id)}`);
     try {
       return s3.putObject({
         Bucket: bucketName,
         Key: this.fileName(id),
-        Body: data,
+        Body: jsonStr,
       }).promise();
     } catch (error) {
       console.log('error', error);
