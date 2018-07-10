@@ -1,5 +1,5 @@
 import Crawler from './Crawler';
-import { Stats } from './Stats';
+import Stats from './Stats';
 
 export default async (event: any, context: AWSLambda.Context) => {
   const crawler = await Crawler.create('tamino-martinius');
