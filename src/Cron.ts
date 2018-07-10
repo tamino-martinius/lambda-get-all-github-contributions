@@ -268,6 +268,7 @@ export class Cron {
         branches[node.name] = {
           name: node.name,
           count: node.target.history.totalCount,
+          rootId: node.target.oid,
           commits: [],
         };
       }
@@ -287,6 +288,7 @@ export class Cron {
               name
               target {
                 ... on Commit {
+                  oid
                   history {
                     totalCount
                   }
