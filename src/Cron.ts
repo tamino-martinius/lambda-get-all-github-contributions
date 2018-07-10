@@ -338,7 +338,7 @@ export class Cron {
   }
 
   async getHistoryPage(repo: Repository, branch: string, cursor: string): Promise<HistoryPage> {
-    const response: HistoryPageResponse = await github.query(`
+    const query = `
       query {
         repository(owner: "${ repo.owner }", name: "${ repo.name }") {
           ref(qualifiedName: "${ branch }") {
@@ -367,8 +367,20 @@ export class Cron {
           }
         }
       }
-    `);
-    return response.repository.ref.target.history;
+    `;
+    const response: HistoryPageResponse = await github.query(query);
+    if (response.repository.ref) {
+      return response.repository.ref.target.history;
+    } else {
+      return {
+        totalCount: 0,
+        pageInfo: {
+          hasPreviousPage: false,
+          startCursor: '',
+        },
+        nodes: [],
+      };
+    }
   }
 }
 
