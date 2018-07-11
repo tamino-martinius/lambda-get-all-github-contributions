@@ -54,6 +54,18 @@ export class Stats implements StatsPosition {
       processedCommits: this.processedCommits,
     };
   }
+
+  async restore() {
+    const dataStr = await this.storage.readItem(this.positionId);
+    if (dataStr) {
+      const data: StatsPosition = JSON.parse(dataStr);
+      this.lastData = dataStr;
+      this.stats = data.stats;
+      this.repositoryMapping = data.repositoryMapping;
+      this.nextPrivateId = data.nextPrivateId;
+      this.processedCommits = data.processedCommits;
+    }
+  }
 }
 
 export default Stats;
