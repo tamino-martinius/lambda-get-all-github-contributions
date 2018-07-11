@@ -56,6 +56,20 @@ export class Stats implements StatsPosition {
     };
   }
 
+  async save() {
+    const dataStr = JSON.stringify(this.position);
+    const hasChanged = this.lastData !== dataStr;
+    if (hasChanged) {
+      this.lastData = dataStr;
+      await this.storage.writeItem(this.positionId, dataStr);
+      await this.storage.writeItem(this.statsId, JSON.stringify(this.stats));
+    } else {
+      console.log('skipped writing - no changes detected');
+    }
+    this.hasChanged = this.hasChanged || hasChanged;
+    return hasChanged;
+  }
+
   async restore() {
     const dataStr = await this.storage.readItem(this.positionId);
     if (dataStr) {
