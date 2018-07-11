@@ -32,6 +32,10 @@ export class Stats implements StatsPosition {
     return `${ this.crawler.userId }-stats`;
   }
 
+  get statsId() {
+    return this.crawler.userLogin;
+  }
+
   static async create(crawler: Crawler): Promise<Stats> {
     const storage = await Storage.create();
     const stats = new Stats(crawler, storage);
