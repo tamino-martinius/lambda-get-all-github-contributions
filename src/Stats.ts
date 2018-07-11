@@ -45,6 +45,7 @@ export class Stats implements StatsPosition {
   }
 
   async init() {
+    await this.save();
   }
 
   get position(): StatsPosition {
