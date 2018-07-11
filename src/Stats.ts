@@ -39,6 +39,7 @@ export class Stats implements StatsPosition {
   static async create(crawler: Crawler): Promise<Stats> {
     const storage = await Storage.create();
     const stats = new Stats(crawler, storage);
+    await stats.restore();
     await stats.init();
     return stats;
   }
