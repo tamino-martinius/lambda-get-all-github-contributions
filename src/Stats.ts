@@ -44,7 +44,24 @@ export class Stats implements StatsPosition {
     return stats;
   }
 
+  async initRepositoryMapping() {
+    for (const repoKey in this.crawler.repositories) {
+      if (!this.repositoryMapping[repoKey]) {
+        const repo = this.crawler.repositories[repoKey];
+        if (repo.isPrivate) {
+          const privateKey = `${ repo.owner }/private#${ this.nextPrivateId }`;
+          this.nextPrivateId += 1;
+          this.repositoryMapping[repoKey] = privateKey;
+          this.repositoryMapping[privateKey] = repoKey;
+        } else {
+          this.repositoryMapping[repoKey] = repoKey;
+        }
+      }
+    }
+  }
+
   async init() {
+    await this.initRepositoryMapping();
     await this.save();
   }
 
