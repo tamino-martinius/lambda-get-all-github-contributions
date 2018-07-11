@@ -142,7 +142,7 @@ export interface WeekDayStats extends Totals {
 }
 
 export interface HourStats extends Totals {
-  quaters: Dict<Totals>;
+  quarters: Dict<Totals>;
 }
 
 export interface TimeStats {
