@@ -1,11 +1,27 @@
 import {
+  Dict,
+  GraphStats,
+  StatsPosition,
 } from './types';
 import Storage from './Storage';
 import Crawler from './Crawler';
 
-export class Stats {
+export class Stats implements StatsPosition {
   crawler: Crawler;
   storage: Storage;
+  stats: GraphStats = {
+    daily: {},
+    weekly: {},
+    monthly: {},
+    yearly: {},
+    weekDays: {},
+    repositories: {},
+  };
+  repositoryMapping: Dict<string> = {};
+  nextPrivateId: number = 1;
+  processedCommits: Dict<string> = {};
+  lastData?: string;
+  hasChanged: boolean = false;
 
   constructor(crawler: Crawler, storage: Storage) {
     this.crawler = crawler;
