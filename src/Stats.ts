@@ -37,6 +37,15 @@ export class Stats implements StatsPosition {
 
   async init() {
   }
+
+  get position(): StatsPosition {
+    return {
+      stats: this.stats,
+      repositoryMapping: this.repositoryMapping,
+      nextPrivateId: this.nextPrivateId,
+      processedCommits: this.processedCommits,
+    };
+  }
 }
 
 export default Stats;
