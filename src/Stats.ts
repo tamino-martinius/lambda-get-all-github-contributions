@@ -16,6 +16,8 @@ export class Stats implements StatsPosition {
   crawler: Crawler;
   storage: Storage;
   stats: GraphStats = {
+    quarterly: {},
+    hourly: {},
     daily: {},
     weekly: {},
     monthly: {},
