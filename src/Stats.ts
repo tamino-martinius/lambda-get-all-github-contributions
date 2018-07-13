@@ -95,6 +95,7 @@ export class Stats implements StatsPosition {
 
   initRepositories() {
     for (const repoKey in this.crawler.repositories) {
+      console.log(`Generate stats for ${repoKey}`);
       if (!this.repositoryMapping[repoKey]) {
         const repo = this.crawler.repositories[repoKey];
         if (repo.isPrivate) {
@@ -179,9 +180,11 @@ export class Stats implements StatsPosition {
   }
 
   async save() {
+    console.log(`Save stats`);
     const dataStr = JSON.stringify(this.position);
     const hasChanged = this.lastData !== dataStr;
     if (hasChanged) {
+      console.log(`Write ${dataStr.length} chars`);
       this.lastData = dataStr;
       await this.storage.writeItem(this.positionId, dataStr);
       await this.storage.writeItem(this.statsId, JSON.stringify(this.stats));
@@ -193,8 +196,10 @@ export class Stats implements StatsPosition {
   }
 
   async restore() {
+    console.log(`Restore stats`);
     const dataStr = await this.storage.readItem(this.positionId);
     if (dataStr) {
+      console.log(`Read ${dataStr.length} chars`);
       const data: StatsPosition = JSON.parse(dataStr);
       this.lastData = dataStr;
       this.stats = data.stats;
