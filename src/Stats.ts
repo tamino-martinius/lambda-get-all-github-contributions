@@ -164,7 +164,8 @@ export class Stats implements StatsPosition {
   }
 
   async init() {
-    await this.initRepositoryMapping();
+    this.initRepositories();
+    this.initStats();
     await this.save();
   }
 
