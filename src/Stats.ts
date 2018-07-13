@@ -44,6 +44,15 @@ export class Stats implements StatsPosition {
     return this.crawler.userLogin;
   }
 
+  static get emptyTotals(): Totals {
+    return {
+      additions: 0,
+      deletions: 0,
+      changedFiles: 0,
+      commitCount: 0,
+    };
+  }
+
   static async create(crawler: Crawler): Promise<Stats> {
     const storage = await Storage.create();
     const stats = new Stats(crawler, storage);
