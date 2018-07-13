@@ -105,8 +105,12 @@ export class Stats implements StatsPosition {
           this.nextPrivateId += 1;
           this.repositoryMapping[repoKey] = privateKey;
           this.repositoryMapping[privateKey] = repoKey;
+          this.stats.repositories[privateKey] =
+            this.stats.repositories[privateKey] || Stats.emptyTotals;
         } else {
           this.repositoryMapping[repoKey] = repoKey;
+          this.stats.repositories[repoKey] =
+            this.stats.repositories[repoKey] || Stats.emptyTotals;
         }
       }
     }
