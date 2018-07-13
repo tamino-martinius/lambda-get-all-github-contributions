@@ -150,7 +150,7 @@ export class Stats implements StatsPosition {
           const yearStr = `${ date.getFullYear() }`;
           const weekDayStr = `${ date.getDay() }`;
           const hourStr = `${ date.getHours() }`;
-          const quarterStr = `${ ~~(date.getMinutes() / 15) }`;
+          const quarterStr = `${ date.getHours() }-${ ~~(date.getMinutes() / 15) }`;
           this.initTimeline(repo, commit, quarterStr, 'quarterly');
           this.initTimeline(repo, commit, hourStr, 'hourly');
           this.initTimeline(repo, commit, dateStr, 'daily');
