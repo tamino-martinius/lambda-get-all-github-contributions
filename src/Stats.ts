@@ -125,9 +125,7 @@ export class Stats implements StatsPosition {
   }
 
   initWeekDay(repo: Repository, commit: Commit, weekDayStr: string, hourStr: string) {
-    console.log(this.repositoryStats);
     const repoStats = this.repositoryStats[this.repositoryMapping[repo.key]];
-    console.log(this.stats);
     this.stats.weekDays[weekDayStr] = this.stats.weekDays[weekDayStr] || Stats.emptyWeekDayStats;
     repoStats.weekDays[weekDayStr] = repoStats.weekDays[weekDayStr] || Stats.emptyWeekDayStats;
     const totals = [this.stats.weekDays[weekDayStr], repoStats.weekDays[weekDayStr]];
