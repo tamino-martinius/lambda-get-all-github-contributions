@@ -18,7 +18,7 @@ export class Stats implements StatsPosition {
   repositoryMapping: Dict<string> = {};
   repositoryStats: Dict<TimeStats> = {};
   nextPrivateId: number = 1;
-  processedCommits: Dict<string> = {};
+  processedCommits: Dict<Commit> = {};
   lastData?: string;
   hasChanged: boolean = false;
 
