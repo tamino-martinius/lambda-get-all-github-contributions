@@ -1,7 +1,6 @@
 import {
   Commit,
   Dict,
-  GraphStats,
   Repository,
   StatsKey,
   StatsPosition,
