@@ -116,6 +116,16 @@ export class Stats implements StatsPosition {
     }
   }
 
+  initTimeline(repo: Repository, commit: Commit, key: string, statsKey: StatsKey) {
+    const repoStats = this.stats.repositories[this.repositoryMapping[repo.key]];
+    this.stats[statsKey][key] = this.stats[statsKey][key] || Stats.emptyTotals;
+    repoStats[statsKey][key] = repoStats[statsKey][key] || Stats.emptyTotals;
+    const totals = [this.stats[statsKey][key], repoStats[statsKey][key]];
+    for (const total of totals) {
+      Stats.addCommitToTotals(commit, total);
+    }
+  }
+
   async init() {
     await this.initRepositoryMapping();
     await this.save();
