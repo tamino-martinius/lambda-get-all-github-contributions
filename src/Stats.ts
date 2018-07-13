@@ -174,6 +174,7 @@ export class Stats implements StatsPosition {
     return {
       stats: this.stats,
       repositoryMapping: this.repositoryMapping,
+      repositoryStats: this.repositoryStats,
       nextPrivateId: this.nextPrivateId,
       processedCommits: this.processedCommits,
     };
@@ -188,6 +189,7 @@ export class Stats implements StatsPosition {
       this.lastData = dataStr;
       await this.storage.writeItem(this.positionId, dataStr);
       await this.storage.writeItem(this.statsId, JSON.stringify(this.stats));
+      await this.storage.writeItem(this.repositoryId, JSON.stringify(this.repositoryStats));
     } else {
       console.log('skipped writing - no changes detected');
     }
@@ -204,6 +206,7 @@ export class Stats implements StatsPosition {
       this.lastData = dataStr;
       this.stats = data.stats;
       this.repositoryMapping = data.repositoryMapping;
+      this.repositoryStats = data.repositoryStats;
       this.nextPrivateId = data.nextPrivateId;
       this.processedCommits = data.processedCommits;
     }
