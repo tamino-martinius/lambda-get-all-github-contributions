@@ -1,7 +1,13 @@
 import {
+  Commit,
   Dict,
   GraphStats,
+  Repository,
+  StatsKey,
   StatsPosition,
+  Totals,
+  TimeStats,
+  WeekDayStats,
 } from './types';
 import Storage from './Storage';
 import Crawler from './Crawler';
