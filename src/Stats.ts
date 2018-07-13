@@ -139,23 +139,26 @@ export class Stats implements StatsPosition {
     for (const repoKey in this.crawler.repositories) {
       const repo = this.crawler.repositories[repoKey];
       for (const commitKey of repo.ownCommits) {
-        const commit = repo.commits[commitKey];
-        const date = new Date(commit.committedDate);
-        const dateStr = `${ date.getFullYear() }-${ date.getMonth() }-${ date.getDate() }`;
-        const monthStr = `${ date.getFullYear() }-${ date.getMonth() }`;
-        const weekStr = `${ date.getFullYear() }-${ Stats.getWeekFromDate(date) }`;
-        const yearStr = `${ date.getFullYear() }`;
-        const weekDayStr = `${ date.getDay() }`;
-        const hourStr = `${ date.getHours() }`;
-        const quarterStr = `${ ~~(date.getMinutes() / 15) }`;
-        this.initTimeline(repo, commit, quarterStr, 'quarterly');
-        this.initTimeline(repo, commit, hourStr, 'hourly');
-        this.initTimeline(repo, commit, dateStr, 'daily');
-        this.initTimeline(repo, commit, weekStr, 'weekly');
-        this.initTimeline(repo, commit, weekDayStr, 'weekDays');
-        this.initTimeline(repo, commit, monthStr, 'monthly');
-        this.initTimeline(repo, commit, yearStr, 'yearly');
-        this.initWeekDay(repo, commit, weekDayStr, hourStr);
+        if (!this.processedCommits[commitKey]) {
+          const commit = repo.commits[commitKey];
+          const date = new Date(commit.committedDate);
+          const dateStr = `${ date.getFullYear() }-${ date.getMonth() }-${ date.getDate() }`;
+          const monthStr = `${ date.getFullYear() }-${ date.getMonth() }`;
+          const weekStr = `${ date.getFullYear() }-${ Stats.getWeekFromDate(date) }`;
+          const yearStr = `${ date.getFullYear() }`;
+          const weekDayStr = `${ date.getDay() }`;
+          const hourStr = `${ date.getHours() }`;
+          const quarterStr = `${ ~~(date.getMinutes() / 15) }`;
+          this.initTimeline(repo, commit, quarterStr, 'quarterly');
+          this.initTimeline(repo, commit, hourStr, 'hourly');
+          this.initTimeline(repo, commit, dateStr, 'daily');
+          this.initTimeline(repo, commit, weekStr, 'weekly');
+          this.initTimeline(repo, commit, weekDayStr, 'weekDays');
+          this.initTimeline(repo, commit, monthStr, 'monthly');
+          this.initTimeline(repo, commit, yearStr, 'yearly');
+          this.initWeekDay(repo, commit, weekDayStr, hourStr);
+          this.processedCommits[commitKey] = commit;
+        }
       }
     }
   }
