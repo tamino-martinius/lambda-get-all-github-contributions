@@ -102,19 +102,19 @@ export class Stats implements StatsPosition {
           this.nextPrivateId += 1;
           this.repositoryMapping[repoKey] = privateKey;
           this.repositoryMapping[privateKey] = repoKey;
-          this.stats.repositories[privateKey] =
-            this.stats.repositories[privateKey] || Stats.emptyTotals;
+          this.repositoryStats[privateKey] =
+            this.repositoryStats[privateKey] || Stats.emptyStats;
         } else {
           this.repositoryMapping[repoKey] = repoKey;
-          this.stats.repositories[repoKey] =
-            this.stats.repositories[repoKey] || Stats.emptyTotals;
+          this.repositoryStats[repoKey] =
+            this.repositoryStats[repoKey] || Stats.emptyStats;
         }
       }
     }
   }
 
   initTimeline(repo: Repository, commit: Commit, key: string, statsKey: StatsKey) {
-    const repoStats = this.stats.repositories[this.repositoryMapping[repo.key]];
+    const repoStats = this.repositoryStats[this.repositoryMapping[repo.key]];
     this.stats[statsKey][key] = this.stats[statsKey][key] || Stats.emptyTotals;
     repoStats[statsKey][key] = repoStats[statsKey][key] || Stats.emptyTotals;
     const totals = [this.stats[statsKey][key], repoStats[statsKey][key]];
@@ -124,7 +124,7 @@ export class Stats implements StatsPosition {
   }
 
   initWeekDay(repo: Repository, commit: Commit, weekDayStr: string, hourStr: string) {
-    const repoStats = this.stats.repositories[this.repositoryMapping[repo.key]];
+    const repoStats = this.repositoryStats[this.repositoryMapping[repo.key]];
     this.stats.weekDays[weekDayStr] = this.stats.weekDays[weekDayStr] || Stats.emptyWeekDayStats;
     repoStats.weekDays[weekDayStr] = repoStats.weekDays[weekDayStr] || Stats.emptyWeekDayStats;
     const totals = [this.stats.weekDays[weekDayStr], repoStats.weekDays[weekDayStr]];
