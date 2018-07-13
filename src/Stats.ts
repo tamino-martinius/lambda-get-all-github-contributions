@@ -35,6 +35,10 @@ export class Stats implements StatsPosition {
     return this.crawler.userLogin;
   }
 
+  get repositoryId() {
+    return `${this.crawler.userLogin}-repositories`;
+  }
+
   static get emptyTotals(): Totals {
     return {
       additions: 0,
