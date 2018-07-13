@@ -89,7 +89,6 @@ export class Stats implements StatsPosition {
     return stats;
   }
 
-  async initRepositoryMapping() {
   static addCommitToTotals(commit: Commit, total: Totals) {
     total.additions += commit.additions;
     total.deletions += commit.deletions;
@@ -97,6 +96,7 @@ export class Stats implements StatsPosition {
     total.commitCount += 1;
   }
 
+  initRepositories() {
     for (const repoKey in this.crawler.repositories) {
       if (!this.repositoryMapping[repoKey]) {
         const repo = this.crawler.repositories[repoKey];
