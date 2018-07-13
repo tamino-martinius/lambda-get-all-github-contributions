@@ -157,7 +157,6 @@ export class Stats implements StatsPosition {
           this.initTimeline(repo, commit, hourStr, 'hourly');
           this.initTimeline(repo, commit, dateStr, 'daily');
           this.initTimeline(repo, commit, weekStr, 'weekly');
-          this.initTimeline(repo, commit, weekDayStr, 'weekDays');
           this.initTimeline(repo, commit, monthStr, 'monthly');
           this.initTimeline(repo, commit, yearStr, 'yearly');
           this.initWeekDay(repo, commit, weekDayStr, hourStr);
