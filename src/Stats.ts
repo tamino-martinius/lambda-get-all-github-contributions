@@ -63,6 +63,16 @@ export class Stats implements StatsPosition {
     };
   }
 
+  static initStats<T extends TimeStats>(stats: T) {
+    stats.quarterly = {};
+    stats.hourly = {};
+    stats.daily = {};
+    stats.weekly = {};
+    stats.monthly = {};
+    stats.yearly = {};
+    stats.weekDays = {};
+  }
+
   static async create(crawler: Crawler): Promise<Stats> {
     const storage = await Storage.create();
     const stats = new Stats(crawler, storage);
