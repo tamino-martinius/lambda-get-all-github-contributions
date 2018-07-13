@@ -14,17 +14,9 @@ import Crawler from './Crawler';
 export class Stats implements StatsPosition {
   crawler: Crawler;
   storage: Storage;
-  stats: GraphStats = {
-    quarterly: {},
-    hourly: {},
-    daily: {},
-    weekly: {},
-    monthly: {},
-    yearly: {},
-    weekDays: {},
-    repositories: {},
-  };
+  stats: TimeStats = Stats.emptyStats;
   repositoryMapping: Dict<string> = {};
+  repositoryStats: Dict<TimeStats> = {};
   nextPrivateId: number = 1;
   processedCommits: Dict<string> = {};
   lastData?: string;
