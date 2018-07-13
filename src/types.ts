@@ -169,5 +169,5 @@ export interface StatsPosition {
   stats: GraphStats;
   repositoryMapping: Dict<string>;
   nextPrivateId: number;
-  processedCommits: Dict<string>;
+  processedCommits: Dict<Commit>;
 }
