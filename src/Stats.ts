@@ -95,7 +95,7 @@ export class Stats implements StatsPosition {
 
   initRepositories() {
     for (const repoKey in this.crawler.repositories) {
-      console.log(`Generate stats for ${repoKey}`);
+      console.log(`Init repo stats for ${repoKey}`);
       if (!this.repositoryMapping[repoKey]) {
         const repo = this.crawler.repositories[repoKey];
         if (repo.isPrivate) {
@@ -125,7 +125,9 @@ export class Stats implements StatsPosition {
   }
 
   initWeekDay(repo: Repository, commit: Commit, weekDayStr: string, hourStr: string) {
+    console.log(this.repositoryStats);
     const repoStats = this.repositoryStats[this.repositoryMapping[repo.key]];
+    console.log(this.stats);
     this.stats.weekDays[weekDayStr] = this.stats.weekDays[weekDayStr] || Stats.emptyWeekDayStats;
     repoStats.weekDays[weekDayStr] = repoStats.weekDays[weekDayStr] || Stats.emptyWeekDayStats;
     const totals = [this.stats.weekDays[weekDayStr], repoStats.weekDays[weekDayStr]];
@@ -138,6 +140,7 @@ export class Stats implements StatsPosition {
 
   initStats() {
     for (const repoKey in this.crawler.repositories) {
+      console.log(`Generate repo stats for ${repoKey}`);
       const repo = this.crawler.repositories[repoKey];
       for (const commitKey of repo.ownCommits) {
         if (!this.processedCommits[commitKey]) {
