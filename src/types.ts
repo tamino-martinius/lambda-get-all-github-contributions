@@ -151,6 +151,16 @@ export interface TimeStats {
   weekDays: Dict<WeekDayStats>;
 }
 
+export type StatsKey =
+  'quarterly' |
+  'hourly' |
+  'daily' |
+  'weekDays' |
+  'weekly' |
+  'monthly' |
+  'yearly'
+;
+
 export interface GraphStats extends TimeStats {
   repositories: Dict<TimeStats>;
 }
