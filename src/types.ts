@@ -142,6 +142,8 @@ export interface WeekDayStats extends Totals {
 }
 
 export interface TimeStats {
+  quarterly: Dict<Totals>;
+  hourly: Dict<Totals>;
   daily: Dict<Totals>;
   weekly: Dict<Totals>;
   monthly: Dict<Totals>;
