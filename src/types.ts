@@ -161,13 +161,10 @@ export type StatsKey =
   'yearly'
 ;
 
-export interface GraphStats extends TimeStats {
-  repositories: Dict<TimeStats>;
-}
-
 export interface StatsPosition {
-  stats: GraphStats;
+  stats: TimeStats;
   repositoryMapping: Dict<string>;
+  repositoryStats: Dict<TimeStats>;
   nextPrivateId: number;
   processedCommits: Dict<Commit>;
 }
