@@ -126,6 +126,18 @@ export class Stats implements StatsPosition {
     }
   }
 
+  initWeekDay(repo: Repository, commit: Commit, weekDayStr: string, hourStr: string) {
+    const repoStats = this.stats.repositories[this.repositoryMapping[repo.key]];
+    this.stats.weekDays[weekDayStr] = this.stats.weekDays[weekDayStr] || Stats.emptyWeekDayStats;
+    repoStats.weekDays[weekDayStr] = repoStats.weekDays[weekDayStr] || Stats.emptyWeekDayStats;
+    const totals = [this.stats.weekDays[weekDayStr], repoStats.weekDays[weekDayStr]];
+    for (const total of totals) {
+      total.hours[hourStr] = total.hours[hourStr] || Stats.emptyTotals;
+      Stats.addCommitToTotals(commit, total);
+      Stats.addCommitToTotals(commit, total.hours[hourStr]);
+    }
+  }
+
   async init() {
     await this.initRepositoryMapping();
     await this.save();
