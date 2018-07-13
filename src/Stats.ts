@@ -58,14 +58,16 @@ export class Stats implements StatsPosition {
     };
   }
 
-  static initStats<T extends TimeStats>(stats: T) {
-    stats.quarterly = {};
-    stats.hourly = {};
-    stats.daily = {};
-    stats.weekly = {};
-    stats.monthly = {};
-    stats.yearly = {};
-    stats.weekDays = {};
+  static get emptyStats(): TimeStats {
+    return {
+      quarterly: {},
+      hourly: {},
+      daily: {},
+      weekly: {},
+      monthly: {},
+      yearly: {},
+      weekDays: {},
+    };
   }
 
   static getWeekFromDate(date: Date) {
