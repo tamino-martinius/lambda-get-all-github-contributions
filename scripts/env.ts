@@ -196,6 +196,7 @@ export const generateStack = (type: TemplateType, sam: boolean = false) => {
                 [
                   'arn:aws:s3:::',
                   { Ref: 'LambdaFunctionS3Bucket' },
+                  '/*',
                 ],
               ],
             },
