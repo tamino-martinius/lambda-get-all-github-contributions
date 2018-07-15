@@ -253,6 +253,20 @@ export const generateStack = (type: TemplateType, sam: boolean = false) => {
         },
       },
     };
+    template.Resources.WebsiteDNSName = {
+      Type: 'AWS::Route53::RecordSetGroup',
+      Properties: {
+        HostedZoneName: { 'Fn::Join': ['', [{ Ref: 'DomainName' }, '.']] },
+        RecordSets: [{
+          Name: { Ref: 'FullDomainName' },
+          Type: 'A',
+          AliasTarget: {
+            HostedZoneId: 'Z2FDTNDATAQYW2',
+            DNSName: { 'Fn::GetAtt': ['CloudFront', 'DomainName'] },
+          },
+        }],
+      },
+    };
     template.Resources.LambdaFunction = {
       Type: 'AWS::Serverless::Function',
       Properties: {
