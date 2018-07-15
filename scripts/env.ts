@@ -203,6 +203,56 @@ export const generateStack = (type: TemplateType, sam: boolean = false) => {
         },
       },
     };
+    template.Resources.CloudFront = {
+      Type: 'AWS::CloudFront::Distribution',
+      DependsOn: [
+        'LambdaFunctionS3Bucket',
+      ],
+      Properties: {
+        DistributionConfig: {
+          Comment: `CloudFront Distribution for ${FUNCTION_NAME} S3 bucket`,
+          Origins: [{
+            DomainName: {
+              'Fn::Select': [
+                2,
+                {
+                  'Fn::Split': [
+                    '/',
+                    {
+                      'Fn::GetAtt': 'LambdaFunctionS3Bucket.WebsiteURL',
+                    },
+                  ],
+                },
+              ],
+            },
+            Id: 'S3Origin',
+            CustomOriginConfig: {
+              HTTPPort: '80',
+              HTTPSPort: '443',
+              OriginProtocolPolicy: 'http-only',
+            },
+          }],
+          Enabled: true,
+          HttpVersion: 'http2',
+          DefaultRootObject: 'index.html',
+          Aliases: [{ Ref: 'FullDomainName' }],
+          DefaultCacheBehavior: {
+            AllowedMethods: ['HEAD', 'GET'],
+            Compress: true,
+            ForwardedValues: {
+              QueryString: false,
+            },
+            TargetOriginId: 'S3Origin',
+            ViewerProtocolPolicy: 'redirect-to-https',
+          },
+          PriceClass: 'PriceClass_All',
+          ViewerCertificate: {
+            AcmCertificateArn: { Ref: 'AcmCertificateArn' },
+            SslSupportMethod: 'sni-only',
+          },
+        },
+      },
+    };
     template.Resources.LambdaFunction = {
       Type: 'AWS::Serverless::Function',
       Properties: {
