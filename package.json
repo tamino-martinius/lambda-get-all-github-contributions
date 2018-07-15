@@ -12,9 +12,6 @@
     "localBucketName": "local--get-all-github-contributions",
     "stackName": "GetAllGitHubContributions",
     "functionName": "GetAllGitHubContributions",
-    "apiGateway": false,
-    "apiDomain": "",
-    "apiSubDomain": ""
   },
   "scripts": {
     "build": "ts-node scripts/build.ts",
