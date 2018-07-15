@@ -180,6 +180,29 @@ export const generateStack = (type: TemplateType, sam: boolean = false) => {
         ],
       },
     };
+    template.Resources.BucketPolicy = {
+      Type: 'AWS::S3::BucketPolicy',
+      Properties: {
+        Bucket: { Ref: 'LambdaFunctionS3Bucket' },
+        PolicyDocument: {
+          Statement: [{
+            Sid: 'PublicReadForGetBucketObjects',
+            Effect: 'Allow',
+            Principal: '*',
+            Action: 's3:GetObject',
+            Resource: {
+              'Fn::Join': [
+                '',
+                [
+                  'arn:aws:s3:::',
+                  { Ref: 'LambdaFunctionS3Bucket' },
+                ],
+              ],
+            },
+          }],
+        },
+      },
+    };
     template.Resources.LambdaFunction = {
       Type: 'AWS::Serverless::Function',
       Properties: {
