@@ -19,6 +19,8 @@ export const API_GATEWAY = env.npm_package_config_apiGateway === 'true';
 export const API_DOMAIN = env.npm_package_config_apiDomain || '';
 export const API_SUBDOMAIN = env.npm_package_config_apiSubdomain || '';
 export const GITHUB_TOKEN = env.npm_config_gitHubToken || env.npm_package_config_gitHubToken;
+const getConfig = (key: string) => env[`npm_config_${key}`] || env[`npm_package_config_${key}`];
+
 
 export enum TemplateType {
   INITIAL,
