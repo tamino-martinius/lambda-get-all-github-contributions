@@ -25,6 +25,11 @@ export const DOMAIN_NAME = getConfig('domainName') || '';
 export const FULL_DOMAIN_NAME = getConfig('fullDomainName') || '';
 export const ACM_CERTIFICATE_ARN = getConfig('acmCertificateArn') || '';
 
+if (GITHUB_TOKEN.length === 0) throw 'please define "GITHUB_TOKEN" env variable';
+if (DOMAIN_NAME.length === 0) throw 'please define "DOMAIN_NAME" env variable';
+if (FULL_DOMAIN_NAME.length === 0) throw 'please define "FULL_DOMAIN_NAME" env variable';
+if (ACM_CERTIFICATE_ARN.length === 0) throw 'please define "ACM_CERTIFICATE_ARN" env variable';
+
 export enum TemplateType {
   INITIAL,
   FUNCTION,
