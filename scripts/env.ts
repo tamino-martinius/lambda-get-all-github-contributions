@@ -21,6 +21,9 @@ export const API_GATEWAY = getConfig('apiGateway') === 'true';
 export const API_DOMAIN = getConfig('apiDomain') || '';
 export const API_SUBDOMAIN = getConfig('apiSubdomain') || '';
 export const GITHUB_TOKEN = getConfig('gitHubToken') || '';
+export const DOMAIN_NAME = getConfig('domainName') || '';
+export const FULL_DOMAIN_NAME = getConfig('fullDomainName') || '';
+export const ACM_CERTIFICATE_ARN = getConfig('acmCertificateArn') || '';
 
 export enum TemplateType {
   INITIAL,
