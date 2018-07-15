@@ -92,6 +92,11 @@ export const generateStack = (type: TemplateType, sam: boolean = false) => {
         The name of the lambda function.
       `,
     };
+    parameters.push({
+      ParameterKey: 'LambdaFunctionName',
+      ParameterValue: FUNCTION_NAME,
+      UsePreviousValue: false,
+    });
     template.Parameters.LambdaFunctionS3Key = {
       Type: 'String',
       AllowedPattern: '.*\\.zip',
