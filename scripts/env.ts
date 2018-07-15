@@ -9,18 +9,18 @@ import {
 import tsDedent from 'ts-dedent';
 
 const env = process.env;
-export const AWS_REGION = env.npm_package_config_awsRegion || '';
-export const AWS_PROFILE = env.npm_package_config_awsProfile || '';
-export const LOCAL_BUCKET_NAME = env.npm_package_config_localBucketName || '';
-export const BUCKET_NAME = env.npm_package_config_bucketName || '';
-export const STACK_NAME = env.npm_package_config_stackName || '';
-export const FUNCTION_NAME = env.npm_package_config_functionName || '';
-export const API_GATEWAY = env.npm_package_config_apiGateway === 'true';
-export const API_DOMAIN = env.npm_package_config_apiDomain || '';
-export const API_SUBDOMAIN = env.npm_package_config_apiSubdomain || '';
-export const GITHUB_TOKEN = env.npm_config_gitHubToken || env.npm_package_config_gitHubToken;
 const getConfig = (key: string) => env[`npm_config_${key}`] || env[`npm_package_config_${key}`];
 
+export const AWS_REGION = getConfig('awsRegion') || '';
+export const AWS_PROFILE = getConfig('awsProfile') || '';
+export const LOCAL_BUCKET_NAME = getConfig('localBucketName') || '';
+export const BUCKET_NAME = getConfig('bucketName') || '';
+export const STACK_NAME = getConfig('stackName') || '';
+export const FUNCTION_NAME = getConfig('functionName') || '';
+export const API_GATEWAY = getConfig('apiGateway') === 'true';
+export const API_DOMAIN = getConfig('apiDomain') || '';
+export const API_SUBDOMAIN = getConfig('apiSubdomain') || '';
+export const GITHUB_TOKEN = getConfig('gitHubToken') || '';
 
 export enum TemplateType {
   INITIAL,
