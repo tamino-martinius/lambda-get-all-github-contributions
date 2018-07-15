@@ -105,9 +105,37 @@ export const generateStack = (type: TemplateType, sam: boolean = false) => {
       `,
       Default: 'lambda-function.zip',
     };
+    template.Parameters.DomainName = {
+      Type: 'String',
+      Description: `
+        The name of the domain without subdomain.
+      `,
+    };
     parameters.push({
-      ParameterKey: 'LambdaFunctionName',
-      ParameterValue: FUNCTION_NAME,
+      ParameterKey: 'DomainName',
+      ParameterValue: DOMAIN_NAME,
+      UsePreviousValue: false,
+    });
+    template.Parameters.FullDomainName = {
+      Type: 'String',
+      Description: `
+        The name of the domain including subdomains.
+      `,
+    };
+    parameters.push({
+      ParameterKey: 'FullDomainName',
+      ParameterValue: FULL_DOMAIN_NAME,
+      UsePreviousValue: false,
+    });
+    template.Parameters.AcmCertificateArn = {
+      Type: 'String',
+      Description: `
+        The Certificate arn for the domain.
+      `,
+    };
+    parameters.push({
+      ParameterKey: 'AcmCertificateArn',
+      ParameterValue: ACM_CERTIFICATE_ARN,
       UsePreviousValue: false,
     });
     template.Resources.LambdaExecutionRole = {
