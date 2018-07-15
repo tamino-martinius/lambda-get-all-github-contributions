@@ -79,6 +79,10 @@ export const generateStack = (type: TemplateType, sam: boolean = false) => {
         Type: 'AWS::S3::Bucket',
         Properties: {
           BucketName: { Ref: 'LambdaFunctionS3BucketName' },
+          WebsiteConfiguration: {
+            IndexDocument: 'index.html',
+            ErrorDocument: '404.html',
+          },
         },
       },
     },
