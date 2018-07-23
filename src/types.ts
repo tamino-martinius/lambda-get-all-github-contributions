@@ -150,7 +150,7 @@ export interface CrawlState {
   position?: CrawlPosition;
 }
 
-export interface Totals {
+export interface Counts {
   additions: number;
   deletions: number;
   changedFiles: number;
