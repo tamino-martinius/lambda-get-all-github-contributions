@@ -52,7 +52,7 @@ export class Crawler {
   }
 
   async init() {
-    console.log(`Start with ${ this.crawlType || 'first' } crawling`);
+    console.log(`Start with ${this.crawlType || 'first'} crawling`);
     if (this.crawlType !== CrawlType.Init) {
       await this.initRepositories();
       await this.initBranches();
@@ -125,10 +125,10 @@ export class Crawler {
     const hasPartialCommits = !!this.position && !!this.position.commits && !!this.position.cursor;
     for (const repoKey in this.repositories) {
       if (this.position && this.position.repoKey !== repoKey) {
-        console.log(`skipping commits for ${ repoKey }`);
+        console.log(`skipping commits for ${repoKey}`);
         continue; // Skip data until reaching last crawl position
       }
-      console.log(`get commits for ${ repoKey }`);
+      console.log(`get commits for ${repoKey}`);
       const repo = this.repositories[repoKey];
       for (const branchName in repo.branches) {
         if (this.position) {
@@ -146,10 +146,10 @@ export class Crawler {
           }
         }
         const branch = repo.branches[branchName];
-        console.log(`get commits for ${ repoKey }:${ branchName }`);
+        console.log(`get commits for ${repoKey}:${branchName}`);
 
         const commits = await this.getCommits(repo, branch);
-        console.log(`fetched ${ Object.keys(commits).length } new commits`);
+        console.log(`fetched ${Object.keys(commits).length} new commits`);
 
         for (const commit of commits) {
           repo.commits[commit.oid] = commit;
@@ -176,7 +176,7 @@ export class Crawler {
     filter: string,
     slot: string,
     asc: boolean = true,
-  ) : string {
+  ): string {
     let limit: number = 100;
     if (cursor) {
       const cursorParts = cursor.split(' ');
@@ -184,22 +184,22 @@ export class Crawler {
         limit = Math.min(100, Number.parseInt(cursorParts[1]));
       }
     }
-    let pageQuery = `${ asc ? 'first' : 'last' }: ${ limit }`;
+    let pageQuery = `${asc ? 'first' : 'last'}: ${limit}`;
     if (cursor) {
-      pageQuery += `, ${ asc ? 'after' : 'before' }: "${ cursor }"`;
+      pageQuery += `, ${asc ? 'after' : 'before'}: "${cursor}"`;
     }
     if (filter) {
-      pageQuery += `, ${ filter }`;
+      pageQuery += `, ${filter}`;
     }
     return `
-      ${ resource }(${ pageQuery }) {
+      ${resource}(${pageQuery}) {
         totalCount
         pageInfo {
-          ${ asc ? 'hasNextPage' : 'hasPreviousPage' }
-          ${ asc ? 'endCursor' : 'startCursor' }
+          ${asc ? 'hasNextPage' : 'hasPreviousPage'}
+          ${asc ? 'endCursor' : 'startCursor'}
         }
         nodes {
-          ${ slot }
+          ${slot}
         }
       }
     `;
@@ -208,7 +208,7 @@ export class Crawler {
   static async getIdFromUser(login: string): Promise<string> {
     const response: UserResponse = await github.query(`
       query {
-        user(login: "${ login }") {
+        user(login: "${login}") {
           id
         }
       }
@@ -242,24 +242,26 @@ export class Crawler {
   }
 
   async getRepositoriesPage(cursor?: string): Promise<RepositoriesPage> {
+    const page = Crawler.paginated(
+      'repositories',
+      cursor,
+      'affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]',
+      `
+        name
+        isPrivate
+        owner {
+          login
+        }
+        defaultBranchRef {
+          name
+        }
+      `,
+    );
+
     const response: RepositoriesPageResponse = await github.query(`
       query {
-        user(login: "${ this.userLogin}") {
-          ${ Crawler.paginated(
-            'repositories',
-            cursor,
-            'affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]',
-            `
-              name
-              isPrivate
-              owner {
-                login
-              }
-              defaultBranchRef {
-                name
-              }
-            `,
-          )}
+        user(login: "${this.userLogin}") {
+          ${page}
         }
       }
     `);
@@ -287,25 +289,27 @@ export class Crawler {
   }
 
   async getBranchesPage(repo: Repository, cursor?: string): Promise<BranchesPage> {
+    const page = Crawler.paginated(
+      'refs',
+      cursor,
+      `refPrefix: "refs/heads/"`,
+      `
+        name
+        target {
+          ... on Commit {
+            oid
+            history(author: { id: "${this.userId}" }) {
+              totalCount
+            }
+          }
+        }
+      `,
+    );
+
     const response: BranchesPageResponse = await github.query(`
       query {
-        repository(owner: "${ repo.owner }", name: "${ repo.name }") {
-          ${ Crawler.paginated(
-            'refs',
-            cursor,
-            `refPrefix: "refs/heads/"`,
-            `
-              name
-              target {
-                ... on Commit {
-                  oid
-                  history(author: { id: "${ this.userId }" }) {
-                    totalCount
-                  }
-                }
-              }
-            `,
-          ) }
+        repository(owner: "${repo.owner}", name: "${repo.name}") {
+          ${page}
         }
       }
     `);
@@ -315,7 +319,7 @@ export class Crawler {
   async getCommits(repo: Repository, branch: Branch): Promise<Commit[]> {
     let commitCount = Object.keys(branch.commits).length;
     let hasPreviousPage = commitCount < branch.count;
-    let startCursor = `${ branch.rootId } ${ branch.count - commitCount }`;
+    let startCursor = `${branch.rootId} ${branch.count - commitCount}`;
     let commits: Commit[] = [];
     if (this.position && this.position.commits && this.position.cursor) {
       commits = this.position.commits;
@@ -335,7 +339,7 @@ export class Crawler {
         changedFiles: node.changedFiles,
         committedDate: node.committedDate,
       })));
-      console.log(`${ commits.length } / ${ historyPage.totalCount }`);
+      console.log(`${commits.length} / ${historyPage.totalCount}`);
       if (commits.length % 1000 < commitCount % 1000) {
         // Backup current status every time commit count crosses 1k mark
         await this.save({
@@ -350,30 +354,31 @@ export class Crawler {
   }
 
   async getHistoryPage(repo: Repository, branch: string, cursor: string): Promise<HistoryPage> {
+    const page = Crawler.paginated(
+      'history',
+      cursor,
+      `author: { id: "${this.userId}" }`,
+      `
+        committer {
+          user {
+            id
+          }
+        }
+        oid
+        additions
+        deletions
+        changedFiles
+        committedDate
+      `,
+      false,
+    );
     const query = `
       query {
-        repository(owner: "${ repo.owner }", name: "${ repo.name }") {
-          ref(qualifiedName: "${ branch }") {
+        repository(owner: "${repo.owner}", name: "${repo.name}") {
+          ref(qualifiedName: "${branch}") {
             target {
               ... on Commit {
-                ${ Crawler.paginated(
-                  'history',
-                  cursor,
-                  `author: { id: "${ this.userId }" }`,
-                  `
-                    committer {
-                      user {
-                        id
-                      }
-                    }
-                    oid
-                    additions
-                    deletions
-                    changedFiles
-                    committedDate
-                  `,
-                  false,
-                ) }
+                ${page}
               }
             }
           }
