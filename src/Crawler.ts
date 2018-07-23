@@ -233,6 +233,7 @@ export class Crawler {
           branches: {},
           commits: {},
           ownCommits: [],
+          languages: node.languages.nodes.map(language => language.name),
           defaultBranchName: (node.defaultBranchRef ? node.defaultBranchRef.name : undefined),
         };
         repositories[repo.key] = repo;
