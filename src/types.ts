@@ -11,6 +11,11 @@ export interface RepositoriesPage {
   nodes: {
     name: string;
     isPrivate: boolean;
+    languages: {
+      nodes: {
+        name: string;
+      }[];
+    }
     owner: {
       login: string;
     };
