@@ -157,4 +157,24 @@ export interface Counts {
   commitCount: number;
 }
 
+export interface CommitSplit<T> {
+  closed: T;
+  open: T;
+  sum: T;
+}
+
+export interface StatsData {
+  total: CommitSplit<Counts>;
+  languages: Dict<Counts>;
+  weekDays: CommitSplit<Dict<WeekDayStats>>;
+  dates: CommitSplit<Dict<Counts>>;
+  repositories: Dict<RepositoryStats>;
+}
+
+export interface WeekDayStats extends Counts {
+  hours: Dict<Counts>;
+}
+
+export interface RepositoryStats extends Counts {
+  years: Dict<Counts>;
 }
