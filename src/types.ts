@@ -91,6 +91,7 @@ export interface Repository {
   key: string;
   isPrivate: boolean;
   defaultBranchName?: string;
+  languages: string[];
   branches: Dict<Branch>;
   commits: Dict<Commit>;
   ownCommits: string[];
