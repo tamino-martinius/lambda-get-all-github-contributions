@@ -157,34 +157,4 @@ export interface Counts {
   commitCount: number;
 }
 
-export interface WeekDayStats extends Totals {
-  hours: Dict<Totals>;
-}
-
-export interface TimeStats {
-  quarterly: Dict<Totals>;
-  hourly: Dict<Totals>;
-  daily: Dict<Totals>;
-  weekly: Dict<Totals>;
-  monthly: Dict<Totals>;
-  yearly: Dict<Totals>;
-  weekDays: Dict<WeekDayStats>;
-}
-
-export type StatsKey =
-  'quarterly' |
-  'hourly' |
-  'daily' |
-  'weekDays' |
-  'weekly' |
-  'monthly' |
-  'yearly'
-;
-
-export interface StatsPosition {
-  stats: TimeStats;
-  repositoryMapping: Dict<string>;
-  repositoryStats: Dict<TimeStats>;
-  nextPrivateId: number;
-  processedCommits: Dict<Commit>;
 }
