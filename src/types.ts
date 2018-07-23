@@ -118,6 +118,20 @@ export interface Commit {
   committedDate: string;
 }
 
+export interface CommitStats {
+  isPrivate: boolean;
+  additions: number;
+  deletions: number;
+  changedFiles: number;
+  dateStr: string;
+  monthStr: string;
+  weekStr: string;
+  yearStr: string;
+  weekDayStr: string;
+  hourStr: string;
+  quarterStr: string;
+}
+
 export enum CrawlType {
   Init = 'init',
   Delta = 'delta',
