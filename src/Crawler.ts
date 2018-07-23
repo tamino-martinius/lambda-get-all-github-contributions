@@ -251,7 +251,9 @@ export class Crawler {
         name
         isPrivate
         languages(first: 5) {
-          name
+          nodes {
+            name
+          }
         }
         owner {
           login
